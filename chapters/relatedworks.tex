@@ -8,7 +8,7 @@ Probably one of the most prominent solution is from Engel et al. \cite{Engel2017
 \section{Audio Style Transfer}
 Another approach is proposed in a paper by Ramani et al. \cite{Ramani2018}. In their approach they developed a Neural Network that is also, like the previous paper, based on an Autoencoder Architecture. As also the title says, they speak officially about their system as "Audio Style Transfer Algorithm". The process of generating an audio containing characteristics of two audio signals is here slightly different as in the work of Engel et al.. as they use in order two networks, namely a transformation network and a loss network. At first the transformation network transforms an input spectrogram into a stylised spectrogram whereas it is using the pre trained weights from the loss network. The latter is subsequently used to calculate the style-loss but also content-loss between the respective spectrograms and the output from the transformation network. This loss gets minimized by back- propagation to the transformation network. By this procedure it is possible to pass a single spectrogram through the transformation network which in order outputs a new spectrogram containing the characteristics of itself (content) but also of one other style audio. To be also mentioned due to its architecture it also performs really fast and could be used for real-time use.\\
 
-\textit{Verma et al.} also 
+\textit{Verma et al.} presented in their paper in 2018 a new machine learning technique for the purpose of generating novel sounds \cite{}
 
 
 

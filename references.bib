@@ -1,0 +1,312 @@
+@Article{Engel2017,
+	author     = {Jesse H. Engel and Cinjon Resnick and Adam Roberts and Sander Dieleman and Douglas Eck and Karen Simonyan and Mohammad Norouzi},
+	journal    = {CoRR},
+	title      = {Neural Audio Synthesis of Musical Notes with WaveNet Autoencoders},
+	year       = {2017},
+	volume     = {abs/1704.01279},
+	bibsource  = {dblp computer science bibliography, https://dblp.org},
+	biburl     = {https://dblp.org/rec/journals/corr/EngelRRDESN17.bib},
+	eprint     = {1704.01279},
+	eprinttype = {arXiv},
+	groups     = {Synthesis},
+	timestamp  = {Mon, 22 Jul 2019 13:51:23 +0200},
+	url        = {http://arxiv.org/abs/1704.01279},
+}
+
+@Article{Ramani2018,
+	author     = {Dhruv Ramani and Samarjit Karmakar and Anirban Panda and Asad Ahmed and Pratham Tangri},
+	journal    = {CoRR},
+	title      = {Autoencoder Based Architecture For Fast {\&} Real Time Audio Style Transfer},
+	year       = {2018},
+	volume     = {abs/1812.07159},
+	bibsource  = {dblp computer science bibliography, https://dblp.org},
+	biburl     = {https://dblp.org/rec/journals/corr/abs-1812-07159.bib},
+	eprint     = {1812.07159},
+	eprinttype = {arXiv},
+	groups     = {Style Transfer},
+	timestamp  = {Tue, 01 Jan 2019 15:01:25 +0100},
+	url        = {http://arxiv.org/abs/1812.07159},
+}
+
+@InProceedings{sarroff2014musical,
+	author       = {Sarroff, Andy and Casey, Michael A},
+	booktitle    = {Proceedings of the International Society for Music Information Retrieval Conference (ISMIR2014)},
+	title        = {Musical audio synthesis using autoencoding neural nets},
+	year         = {2014},
+	organization = {International Society for Music Information Retrieval},
+	groups       = {Synthesis},
+}
+
+@InProceedings{Kalchbrenner2018,
+	author    = {Kalchbrenner, Nal and Elsen, Erich and Simonyan, Karen and Noury, Seb and Casagrande, Norman and Lockhart, Edward and Stimberg, Florian and van den Oord, Aaron and Dieleman, Sander and Kavukcuoglu, Koray},
+	booktitle = {Proceedings of the 35th International Conference on Machine Learning},
+	title     = {Efficient Neural Audio Synthesis},
+	year      = {2018},
+	editor    = {Dy, Jennifer and Krause, Andreas},
+	month     = {10--15 Jul},
+	pages     = {2410--2419},
+	publisher = {PMLR},
+	series    = {Proceedings of Machine Learning Research},
+	volume    = {80},
+	abstract  = {Sequential models achieve state-of-the-art results in audio, visual and textual domains with respect to both estimating the data distribution and generating desired samples. Efficient sampling for this class of models at the cost of little to no loss in quality has however remained an elusive problem. With a focus on text-to-speech synthesis, we describe a set of general techniques for reducing sampling time while maintaining high output quality. We first describe a single-layer recurrent neural network, the WaveRNN, with a dual softmax layer that matches the quality of the state-of-the-art WaveNet model. The compact form of the network makes it possible to generate 24 kHz 16-bit audio 4 times faster than real time on a GPU. Secondly, we apply a weight pruning technique to reduce the number of weights in the WaveRNN. We find that, for a constant number of parameters, large sparse networks perform better than small dense networks and this relationship holds past sparsity levels of more than 96\%. The small number of weights in a Sparse WaveRNN makes it possible to sample high-fidelity audio on a mobile phone CPU in real time. Finally, we describe a new dependency scheme for sampling that lets us trade a constant number of non-local, distant dependencies for the ability to generate samples in batches. The Batch WaveRNN produces 8 samples per step without loss of quality and offers orthogonal ways of further increasing sampling efficiency.},
+	groups    = {Synthesis},
+	pdf       = {http://proceedings.mlr.press/v80/kalchbrenner18a/kalchbrenner18a.pdf},
+	url       = {https://proceedings.mlr.press/v80/kalchbrenner18a.html},
+}
+
+@Article{UNCINI2003593,
+	author   = {Aurelio Uncini},
+	journal  = {Neurocomputing},
+	title    = {Audio signal processing by neural networks},
+	year     = {2003},
+	issn     = {0925-2312},
+	note     = {Evolving Solution with Neural Networks},
+	number   = {3},
+	pages    = {593-625},
+	volume   = {55},
+	abstract = {In this paper a review of architectures suitable for nonlinear real-time audio signal processing is presented. The computational and structural complexity of neural networks (NNs) represent in fact, the main drawbacks that can hinder many practical NNs multimedia applications. In particular efficient neural architectures and their learning algorithm for real-time on-line audio processing are discussed. Moreover, applications in the fields of (1) audio signal recovery, (2) speech quality enhancement, (3) nonlinear transducer linearization, (4) learning based pseudo-physical sound synthesis, are briefly presented and discussed.},
+	doi      = {https://doi.org/10.1016/S0925-2312(03)00395-3},
+	groups   = {Synthesis},
+	keywords = {Nonlinear audio signal processing, Neural networks for signal processing, Subband adaptive nonlinear filters, Spline neural networks, Speech enhancement, Signal recovery, Signal predistortion, Physical model sound synthesis},
+	url      = {https://www.sciencedirect.com/science/article/pii/S0925231203003953},
+}
+
+@Article{https://doi.org/10.48550/arxiv.1706.09559,
+  author    = {Wyse, L.},
+  title     = {Audio Spectrogram Representations for Processing with Convolutional Neural Networks},
+  year      = {2017},
+  doi       = {10.48550/ARXIV.1706.09559},
+  groups    = {Spectrograms},
+  keywords  = {Sound (cs.SD), Machine Learning (cs.LG), Multimedia (cs.MM), Neural and Evolutionary Computing (cs.NE), FOS: Computer and information sciences, C.1.3; H.5.1, 68Txx},
+  publisher = {arXiv},
+  url       = {https://arxiv.org/abs/1706.09559},
+}
+
+@InProceedings{dorfler2017inside,
+	author       = {D{\"o}rfler, Monika and Bammer, Roswitha and Grill, Thomas},
+	booktitle    = {2017 international conference on sampling theory and applications (SampTA)},
+	title        = {Inside the spectrogram: Convolutional Neural Networks in audio processing},
+	year         = {2017},
+	organization = {IEEE},
+	pages        = {152--155},
+	groups       = {Spectrograms},
+}
+
+@Article{colonel2020low,
+	author  = {colonel, joseph and keene, sam},
+	journal = {journal of the audio engineering society},
+	title   = {low latency timbre interpolation and warping using autoencoding neural networks},
+	year    = {2020},
+	month   = {october},
+	groups  = {Style Transfer},
+}
+
+
+
+@InProceedings{Gatys2016,
+  author    = {Gatys, Leon A. and Ecker, Alexander S. and Bethge, Matthias},
+  booktitle = {2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  title     = {Image Style Transfer Using Convolutional Neural Networks},
+  year      = {2016},
+  pages     = {2414-2423},
+  doi       = {10.1109/CVPR.2016.265},
+  groups    = {Style Transfer},
+}
+
+@InProceedings{johnson2016perceptual,
+  author       = {Johnson, Justin and Alahi, Alexandre and Fei-Fei, Li},
+  booktitle    = {European conference on computer vision},
+  title        = {Perceptual losses for real-time style transfer and super-resolution},
+  year         = {2016},
+  organization = {Springer},
+  pages        = {694--711},
+  groups       = {Style Transfer},
+}
+
+@Misc{Kingma2014,
+  author    = {Kingma, Diederik P. and Ba, Jimmy},
+  title     = {Adam: A Method for Stochastic Optimization},
+  year      = {2014},
+  doi       = {10.48550/ARXIV.1412.6980},
+  groups    = {Other},
+  keywords  = {Machine Learning (cs.LG), FOS: Computer and information sciences},
+  publisher = {arXiv},
+  url       = {https://arxiv.org/abs/1412.6980},
+}
+
+@Article{Griffin1984,
+  author  = {Griffin, D. and Jae Lim},
+  journal = {IEEE Transactions on Acoustics, Speech, and Signal Processing},
+  title   = {Signal estimation from modified short-time Fourier transform},
+  year    = {1984},
+  number  = {2},
+  pages   = {236-243},
+  volume  = {32},
+  doi     = {10.1109/TASSP.1984.1164317},
+  groups  = {Other},
+}
+
+@Online{ulyanov2016audio,
+  author  = {Ulyanov, Dmitry and Lebedev, Vadim},
+  groups  = {Style Transfer},
+  title   = {Audio texture synthesis and style transfer},
+  url     = {https://dmitryulyanov. github. io/audio-texture-synthesis-and-style-transfer},
+  urldate = {2023-03-14},
+  year    = {2016},
+}
+
+@Article{Engel2019,
+  author     = {Jesse H. Engel and Kumar Krishna Agrawal and Shuo Chen and Ishaan Gulrajani and Chris Donahue and Adam Roberts},
+  journal    = {CoRR},
+  title      = {GANSynth: Adversarial Neural Audio Synthesis},
+  year       = {2019},
+  volume     = {abs/1902.08710},
+  bibsource  = {dblp computer science bibliography, https://dblp.org},
+  biburl     = {https://dblp.org/rec/journals/corr/abs-1902-08710.bib},
+  eprint     = {1902.08710},
+  eprinttype = {arXiv},
+  groups     = {Synthesis},
+  timestamp  = {Mon, 22 Jul 2019 13:51:23 +0200},
+  url        = {http://arxiv.org/abs/1902.08710},
+}
+
+@InProceedings{Kalchbrenner2018a,
+  author    = {Kalchbrenner, Nal and Elsen, Erich and Simonyan, Karen and Noury, Seb and Casagrande, Norman and Lockhart, Edward and Stimberg, Florian and van den Oord, Aaron and Dieleman, Sander and Kavukcuoglu, Koray},
+  booktitle = {Proceedings of the 35th International Conference on Machine Learning},
+  title     = {Efficient Neural Audio Synthesis},
+  year      = {2018},
+  editor    = {Dy, Jennifer and Krause, Andreas},
+  month     = {10--15 Jul},
+  pages     = {2410--2419},
+  publisher = {PMLR},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {80},
+  abstract  = {Sequential models achieve state-of-the-art results in audio, visual and textual domains with respect to both estimating the data distribution and generating desired samples. Efficient sampling for this class of models at the cost of little to no loss in quality has however remained an elusive problem. With a focus on text-to-speech synthesis, we describe a set of general techniques for reducing sampling time while maintaining high output quality. We first describe a single-layer recurrent neural network, the WaveRNN, with a dual softmax layer that matches the quality of the state-of-the-art WaveNet model. The compact form of the network makes it possible to generate 24 kHz 16-bit audio 4 times faster than real time on a GPU. Secondly, we apply a weight pruning technique to reduce the number of weights in the WaveRNN. We find that, for a constant number of parameters, large sparse networks perform better than small dense networks and this relationship holds past sparsity levels of more than 96\%. The small number of weights in a Sparse WaveRNN makes it possible to sample high-fidelity audio on a mobile phone CPU in real time. Finally, we describe a new dependency scheme for sampling that lets us trade a constant number of non-local, distant dependencies for the ability to generate samples in batches. The Batch WaveRNN produces 8 samples per step without loss of quality and offers orthogonal ways of further increasing sampling efficiency.},
+  groups    = {Synthesis},
+  pdf       = {http://proceedings.mlr.press/v80/kalchbrenner18a/kalchbrenner18a.pdf},
+  url       = {https://proceedings.mlr.press/v80/kalchbrenner18a.html},
+}
+
+@InProceedings{hantrakul2019fast,
+  author    = {Hantrakul, Lamtharn and Engel, Jesse H and Roberts, Adam and Gu, Chenjie},
+  booktitle = {ISMIR},
+  title     = {Fast and Flexible Neural Audio Synthesis.},
+  year      = {2019},
+  pages     = {524--530},
+  groups    = {Synthesis},
+}
+
+@InProceedings{Li2019,
+  author    = {Li, Naihan and Liu, Shujie and Liu, Yanqing and Zhao, Sheng and Liu, Ming},
+  booktitle = {Proceedings of the AAAI conference on artificial intelligence},
+  title     = {Neural speech synthesis with transformer network},
+  year      = {2019},
+  number    = {01},
+  pages     = {6706--6713},
+  volume    = {33},
+  groups    = {Synthesis},
+}
+
+@Misc{Natsiou2023,
+  author    = {Natsiou, Anastasia and Longo, Luca and O'Leary, Sean},
+  title     = {An investigation of the reconstruction capacity of stacked convolutional autoencoders for log-mel-spectrograms},
+  year      = {2023},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  doi       = {10.48550/ARXIV.2301.07665},
+  groups    = {Spectrograms},
+  keywords  = {Sound (cs.SD), Machine Learning (cs.LG), Audio and Speech Processing (eess.AS), FOS: Computer and information sciences, FOS: Computer and information sciences, FOS: Electrical engineering, electronic engineering, information engineering, FOS: Electrical engineering, electronic engineering, information engineering},
+  publisher = {arXiv},
+  url       = {https://arxiv.org/abs/2301.07665},
+}
+
+@Article{dai2018music,
+  author  = {Dai, Shuqi and Zhang, Zheng and Xia, Gus G},
+  journal = {arXiv preprint arXiv:1803.06841},
+  title   = {Music style transfer: A position paper},
+  year    = {2018},
+  groups  = {Style Transfer},
+}
+
+@Article{chen2020audio,
+  author    = {Chen, Jiyou and Yang, Gaobo and Zhao, Huihuang and Ramasamy, Manimaran},
+  journal   = {Multimedia Tools and Applications},
+  title     = {Audio style transfer using shallow convolutional networks and random filters},
+  year      = {2020},
+  pages     = {15043--15057},
+  volume    = {79},
+  groups    = {Style Transfer},
+  publisher = {Springer},
+}
+
+@InProceedings{tomczak2018audio,
+  author    = {Tomczak, Maciej and Southall, Carl and Hockman, Jason},
+  booktitle = {Proceedings of the 21st International Conference on Digital Audio Effects (DAFx-18)},
+  title     = {Audio style transfer with rhythmic constraints},
+  year      = {2018},
+  groups    = {Style Transfer},
+  url       = {https://www.open-access.bcu.ac.uk/13028/1/DAFx2018_paper_48.pdf},
+}
+
+@Misc{https://doi.org/10.48550/arxiv.2111.05011,
+  author    = {Caillon, Antoine and Esling, Philippe},
+  title     = {RAVE: A variational autoencoder for fast and high-quality neural audio synthesis},
+  year      = {2021},
+  copyright = {Creative Commons Attribution 4.0 International},
+  doi       = {10.48550/ARXIV.2111.05011},
+  groups    = {Style Transfer},
+  keywords  = {Machine Learning (cs.LG), Sound (cs.SD), Audio and Speech Processing (eess.AS), FOS: Computer and information sciences, FOS: Computer and information sciences, FOS: Electrical engineering, electronic engineering, information engineering, FOS: Electrical engineering, electronic engineering, information engineering},
+  publisher = {arXiv},
+  url       = {https://arxiv.org/abs/2111.05011},
+}
+
+@TechReport{elhami2019audio,
+  author = {Elhami, Golnooshsadat and Weber, Romann M},
+  title  = {Audio feature extraction with convolutional neural autoencoders with application to voice conversion},
+  year   = {2019},
+  groups = {Other},
+}
+
+@Misc{https://doi.org/10.48550/arxiv.1802.04208,
+  author    = {Donahue, Chris and McAuley, Julian and Puckette, Miller},
+  title     = {Adversarial Audio Synthesis},
+  year      = {2018},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  doi       = {10.48550/ARXIV.1802.04208},
+  keywords  = {Sound (cs.SD), Machine Learning (cs.LG), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  publisher = {arXiv},
+  url       = {https://arxiv.org/abs/1802.04208},
+}
+
+@Misc{https://doi.org/10.48550/arxiv.1611.02731,
+  author    = {Chen, Xi and Kingma, Diederik P. and Salimans, Tim and Duan, Yan and Dhariwal, Prafulla and Schulman, John and Sutskever, Ilya and Abbeel, Pieter},
+  title     = {Variational Lossy Autoencoder},
+  year      = {2016},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  doi       = {10.48550/ARXIV.1611.02731},
+  groups    = {Autoencoder},
+  keywords  = {Machine Learning (cs.LG), Machine Learning (stat.ML), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  publisher = {arXiv},
+  url       = {https://arxiv.org/abs/1611.02731},
+}
+
+@InBook{Liu2019,
+  author = {Liu, Xuehao and Delany, Sarah and Mckeever, Susan},
+  pages  = {330-341},
+  title  = {Sound Transformation: Applying Image Neural Style Transfer Networks to Audio Spectograms},
+  year   = {2019},
+  isbn   = {978-3-030-29890-6},
+  month  = {08},
+  doi    = {10.1007/978-3-030-29891-3_29},
+  groups = {Style Transfer},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
+
+@Comment{jabref-meta: grouping:
+0 AllEntriesGroup:;
+1 StaticGroup:Autoencoder\;0\;1\;0x8a8a8aff\;\;\;;
+1 StaticGroup:Other\;0\;1\;0x8a8a8aff\;\;\;;
+1 StaticGroup:Spectrograms\;0\;1\;0x8a8a8aff\;\;\;;
+1 StaticGroup:Style Transfer\;0\;1\;0x8a8a8aff\;\;\;;
+1 StaticGroup:Synthesis\;0\;1\;0x8a8a8aff\;\;\;;
+}

@@ -6,6 +6,9 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
+        env: 
+            CI_COMMIT_MESSAGE: Build Pdf
+            CI_COMMIT_AUTHOR: CI
         steps:
             - name: Checkout Code
               uses: actions/checkout@v2
@@ -15,8 +18,11 @@ jobs:
               with:
                 format: pdf
                 filename: main.tex
-            - name: Upload PDF
-              uses: actions/upload-artifact@v3
-              with:
-                name: Master Thesis
-                path: ./main.pdf
+            - name: Push PDF
+              if: github.event_name == 'push'
+              run: |
+                git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+                git config --global user.email "benedikt.langer@hotmail.com"
+                git commit -a -m "${{ env.CI_COMMIT_MESSAGE }}"
+                git push
+              

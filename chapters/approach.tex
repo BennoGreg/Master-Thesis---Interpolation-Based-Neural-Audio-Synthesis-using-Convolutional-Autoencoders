@@ -64,10 +64,15 @@ With the knowledge, that such convolutions are successful on image data, those c
 Taking a 2D-convolution, the kernel (e.g. 3x3) takes a 3x3 frame of frequency x time which results in one value. Summed up, this results in an activation map smaller or equal (if zero padding is used) than the input. After training on different samples and iterating several times, those activation map would contain the most significant features or characteristics of the spectrogram (e.g. when training on classification).
 Depending on the chosen hyper parameter for the amount of output channels (depth), the resulting activation map can be of depth one or even deeper. 
 
-As mentioned before, each neuron in a neural network has an activation function, which is also the case for convolutional neural networks. As there exist different kinds of activation functions, for this approach mostly ReLU (Rectified Linenar Unit) activation functions got used but also LeakyReLU. Additional to this activation function, BatchNormalization gets applied after each convolutional and ReLU non-linearity component. The choice is mainly based on already existing approaches like from \textit{Ramani et al.}\cite{Ramani2018} and \textit{Engel et al.}\cite{Engel2017}, as it was proven to yield promising results in combination. According to 
+As mentioned before, each neuron in a neural network has an activation function, which is also the case for convolutional neural networks. As there exist different kinds of activation functions, for this approach mostly ReLU (Rectified Linenar Unit) activation functions got used but also LeakyReLU. Additional to this activation function, BatchNormalization gets applied after each convolutional and ReLU non-linearity component. The choice is mainly based on already existing approaches like from \textit{Ramani et al.}\cite{Ramani2018} and \textit{Engel et al.}\cite{Engel2017}, as it was proven to yield promising results in combination. According to \textit{Ioffe ad Szegedy} \cite{ioffe2015batch} applying Batch Normalization also improves the training speed (number of iterations/epochs) and enables use much higher learning rates. Also it acts a regularizer, so that overfitting-reducing technologies, such as Dropout, can be omitted.
+
+\subsection{Autoencoder}
 
 
-<convergence?, learning rate, error metric, activation function, batchnorm, Autoencoder>
+\subsection{Optimizer}
+
+
+<convergence?, learning rate, error metric, Autoencoder>
 
 \section{Post Processing}
 \label{sec:app_post_processing}

@@ -1,3 +1,44 @@
 \chapter{Experiment}
 \label{cha:Experiment}
+This section describes the experiments conducted in order to be able, to answer the defined research questions. In the previous chapter (\ref{cha:Approach}) the general methodology used technologies got described, to gain an understanding of the implementation and its components. Based on this knowledge and implementation, some experiments got conducted, that provide interesting results and meaningful insights into this approach of neural audio synthesis. For the purpose of this thesis, some research questions have been defined, for which the following experiments, deliver the answers, which get discussed later on when showing the results.\\
 
+\noindent Those research question are defined as the following:
+
+\begin{itemize}
+    \item \textbf{Is it possible to create novel sounds based on the characteristics of two instruments, by using ML technologies such as convolutional neural networks?}
+
+    \item How do the pre processing steps influence the quality of the training, but also the quality of the output?
+
+    \item How does the configuration/composition of a neural network influence the quality of the output?
+
+    \item What are the information that are learnt from the neural network?
+
+    \item By using audio spectrograms, are they suited best to achieve this task?
+\end{itemize}
+
+In the last section, when describing the different technologies, it has been mentioned, that they can be parameterized in order to influence the outcome of this work. Furthermore some additional steps can be introduced that have a significant impact on the result. This section therefore describes, how the proposed methods were utilized, in order to answer the above mentioned questions. Furthermore those experiments, should deliver some interesting insights, on how different configurations influence the workflow but also the final result being a synthesized audio. Those experiments span almost every stage from the pre-processing until post-processing. 
+
+\section{Implementation Environment}
+In the previous chapter it has already been mentioned, that this approach is developed in python using specific libraries. To shortly mention, for pre- and post-processing the python audio-library \textit{librosa}\cite{brian_mcfee_2022_6097378} has been chosen, as it provides all necessary functionalities that are needed for the approach and experiment. For all steps regarding the neural network model such as configuration, training, inference etc., \textit{PyTorch}\cite{paszke2019pytorch} has been utilized. The project though has been implemented and applied on two different machines, depending on the task that has to be done. Generally speaking, the toolchain compromised of all stages, has been developed on a local machine running python, except the training itself. 
+
+Speaking of that, the training has been mainly performed on a remote "jupyter-notebook" that has access to high-performance GPU resources. Not at least, as in the case of training a convolutional neural network, this is a rather time and computational power-consuming task. Of course, this not only depends on the kind and complexity of the network, but also on the amount of data that is used for the training. Furthermore using GPU-acceleration means to significantly have more computation power and speed, as its applying parallelism. Using the local machine, just the CPU could be utilized for training, which would mean that training is done sequentially and thus significantly slower while the local machine has to be awake constantly. For the training on the remote instance, the pre-processing also gets done there as the data is directly loaded there. 
+As just the training is performed remotely, all other steps, including the evaluation towards audio (re)synthesis having the trained model, gets again done locally. Not at least, as no time-consuming tasks have to be made, but also as its more convenient, as the remote service is not always accessible.
+
+
+\section{Training}
+The training, as mentioned previously, gets performed on a remote "jupyter notebook"-service with access to a GPU. As outlined in the previous chapter, for the whole experiments, the NSynth data set proposed by \textit{Engel et al.}\cite{Engel2017}, gets used. As is well known this dataset is already split into a training, validation and test part. For the training on the remote notebook, the training and validation data set will therefore be used, which in order also get pre-processed there. As a side note, in the beginning of the project, the training was just held locally, with a small subset of the already small test set (mostly of one instrument). This was just done to make a low-level proof that the autoencoder model can produce meaningful results. 
+
+To take a closer look onto the training process, this one consists of several important stages and components. First of all the PyTorch-model, defined as a class, gets initialized. As an metric is needed, to measure the error of the output, the mean squared error (MSE) gets utilized. This error metric calculates the difference between all values of the desired and actual output, squares them, and takes the average over all. Furthermore to optimize the network, as explained before, the Adam optimizer gets applied, in which the (starting) learning rate, but also the weight decay gets defined. The right learning rate depends here heavily on the amount of training data but also complexity of model. In the case of this work, this means it is in the range between $1e-5$ to $1e-7$. In chapter \ref{cha:Approach} it got also mentioned, that a technique to minimize the the learning rate, during the training process gets utilized. This function called \texttt{torch.optim.lr\_scheduler.ReduceLROnPlateau(...)} reduces the learning rate, by a given factor, if within a certain patience period (epochs) no optimization gets detected. This method, improves the training process as further convergence can be achieved. Of course for the training process, the pre-processed training and validation data set has to be loaded. To mentioned, the pre-processed data gets calculated and stored on disk, in advance, to not always have to run through it. for the training it therefore gets loaded and brought into the desired shape for the corresponding model. This shape gets varied throughout the experiments, to observe its impact on the training process but also quality of the output. As this also depends on the chosen network, this gets described later on in this chapter. For the sake of training, this gets done with the training dataset, as well as for the validation dataset, as after each epoch the model gets evaluated on a held out validation set, to check the error on never seen data.
+< write something about tensor, dataloader, batch-size, training process (if not already told), validation etc. >
+
+After each training iteration which is also called epoch, the state of the model gets saved, for further use. The model that performed the best, throughout the training process gets further analyzed towards the applicability for audio (re)synthesis. Those steps, as well as the pre-processing regarding the evaluation data gets performed locally. 
+
+\section{Initial Experiments}
+
+\section{Reconstruction of single audio samples}
+
+\section{Reconstruction with applied interpolation}
+
+\section{Application of different models (configurations)}
+
+\section{Measurement of results}

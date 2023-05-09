@@ -79,7 +79,12 @@ The above mentioned experiments, were a prove regarding the ability of convoluti
 \subsubsection{Neural network}
 As a consequence this means, that also a different model has to be used, as 2D-convolutions are no more suited. Therefore a model has been designed that uses 1D-convolutions. 1D-convolutions are performing the same calculations, with the difference of having just a 1-dimensional kernel. This one dimensional kernel therefore operates on the frequency axis and tries to extract important features. Equally to the 2D-convolutions they also apply the principle of channels. Regarding the channels, those also get expanded but then subsequently until the innermost layer reduced to 1 in order to form a single dimensional vector. Until the end again those channels get expanded but reduced again to 1 at the end to have the same shape as the input vector. 
 
-< Placeholder for image of this autoencoder network >
+ \begin{figure}[htb!]
+	\caption{Deep 1D-convolutional autoencoder}
+	\label{fig:cae_1D}
+	\centering
+	\includegraphics[width=\textwidth]{images/experiments/autoencoder_deep_1D.png}
+\end{figure}
 
 \section{Reconstruction with applied interpolation}
 

@@ -1,3 +1,298 @@
 \chapter[Results]{Results}
 \label{cha:Results}
 
+This chapter, shows the results that could be obtained using, the experiments, mentioned in chapter \ref{cha:Experiment}. Those results contain either numbers, for assessing the model performance with a certain error performance, but also of graphics, displaying the outputs of the models. The outputs of the models, being spectrograms, will get compared with their corresponding input spectrograms. Also as the encoded features that get output of the encoder, get assessed, those get displayed as well. 
+
+
+\section{Results of initial Experiments}
+Despite the initial experiments, are just based on a prove of concept implementation, without real synthesis, those results are also regarded as important. Not at least as they are part of the development during the research. 
+
+
+<Signal plots comparison>
+<Frames comparison>
+<spectrograms input output comparison
+
+\section{Results regarding models with single Frequency Vectors}
+As described in chapter \ref{cha:Experiment} experiments have been conducted by using the single frequency vectors of the spectrograms. As a model, a 18 layer deep neural network with 1D convolutions has been trained on the reconstruction of single frequency vectors. 
+Throughout the development different settings have been tried out in order to find a model with an optimal training process and performance. The amount of data on which the model has been trained on, has been varied as different performances regarding the convergence could be observed. First trainings have been made on keyboard\_synthetic mixed with guitar\_acoustic. Here it could be observed, that no sufficient convergence could be reached (MSE > 200). Training a distinct model per instrument source, showed that the instrument source has a significant influence on the convergence. For example a model trained solely trained on keyboard\_synthetic converged better then a model with guitar\_acoustic. Comparing the performance of a network trained on guitar\_acoustic with one trained on e.g. guitar\_electronic, showed that with the latter a better score could be reached (\textasciitilde 17). Therefore the decision was made, to combine keyboard\_synthetic and guitar\_electronic instead of acoustic, for the training. Compared to the one mixed with guitar\_acoustic a score of \textasciitilde 78 could be reached. Subsequently more instrument sources got added, until the whole training dataset was utilized. This model showed the best performance and was chosen to be considered for the ongoing experiments. The next table \ref{tab:res_scores_1Dcae} shows the error scores of this model. As a short note, each trained model was chosen based on the best validation error score. 
+
+\begin{table}[htb!]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+         & \textbf{MSE-Score} \\
+         \hline
+        \textbf{Training} & 4,237 \\
+        \hline
+        \textbf{Validation} & 4,638 \\
+        \hline
+        \textbf{Test} & 1,190 \\
+        \hline
+    \end{tabular}
+    \caption{MSE-Scores 1D convolutional autoencoder (8 epochs)}
+    \label{tab:res_scores_1Dcae}
+\end{table}
+
+Here it can be seen that the error scores for training and validation are rather close, while the score on the held out test set was significantly smaller. This score could be reached with a training over 8 epochs and was considered as the best score, as after those 8 epochs the validation score increased again (despite decreasing training score). The next graphic \ref{tab:res_scores_1D_pitch} is also interesting as it shows, the error scores on the test set, regarding different pitches. In this case it can be seen, that the numbers does not really have a significant variance.
+
+\begin{table}[htb!]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+         \textbf{Pitch} & \textbf{MSE-Score} \\
+         \hline
+         \textbf{030} & 1,049\\
+         \hline
+         \textbf{035} & 1,393\\
+         \hline
+         \textbf{040} & 0,935\\
+         \hline
+         \textbf{045} & 1,096\\
+         \hline
+         \textbf{050} & 1,019\\
+         \hline
+         \textbf{055} & 1,108\\
+         \hline
+         \textbf{060} & 1,086\\
+         \hline
+         \textbf{065} & 1,111\\
+         \hline
+         \textbf{070} & 1,164\\
+         \hline
+         \textbf{075} & 1,041\\
+         \hline
+         \textbf{080} & 1,177\\
+         \hline
+         \textbf{085} & 1,753\\
+         \hline
+         \textbf{090} & 1,100\\
+         \hline
+         \textbf{095} & 1,796\\
+         \hline
+         \textbf{100} & 2,043\\
+         \hline
+    \end{tabular}
+    \caption{MSE-Scores for specific pitch classes using 1D convolutional autoencoder.}
+    \label{tab:res_scores_1D_pitch}
+\end{table}
+
+\subsection{Experiments of single reconstruction}
+Having the trained network, this one got evaluated towards the ability of reconstructing audio spectrograms and further on recreating the sounds. The next graphics (\ref{fig:res_1D_input_output}, \ref{fig:res_1D_emb} and \ref{fig:res_1D_input_output_sig}) show the result of taking a guitar sample as input and reconstructing it. 
+
+\begin{figure}[htb!]
+    \centering
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.5\textwidth]{images/approach/guitar_acoustic_014-060-127.png}}&
+        \makebox{\includegraphics[width=0.5\textwidth]{images/results/rec_guitar_acoustic_014-060-127.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{input spectrogram ~(a), reconstructed spectrogram. ~(b).}
+    \label{fig:res_1D_input_output}
+\end{figure}
+
+With a special look onto the reconstructability of spectrograms, figure \ref{fig:res_1D_input_output} shows the input spectrogram and the generated output spectrograms from the network. Here it can be seen, that the reconstructed spectrogram, differs in a few points from the input spectrogram. First of all it can be seen, that across the frequency areas with little energy in the input spectrogram, in the output more energy is present. This also means that between those areas and the sound-characteristic high energy areas, less difference is present. Furthermore regarding the original broad spectra at the beginning and at the end, are hardly present in the output spectrogram. Knowing that these represent the stroke and the damp of the string, it can be said, that these are not present in the output. This gets also confirmed through looking at the time-domain signal but moreover on listening to the final sound. 
+
+\begin{figure}[htb!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/results/emb_guitar_acoustic_014-060-127.png}
+    \caption{Encoding of guitar acoustic.}
+    \label{fig:res_1D_emb}
+\end{figure}
+
+Looking at the graphic that depicts the embedded space, there it already can be seen that those broad spectra are not preserved. A final look onto the time domain plots also reveal, that there's no impulse at the beginning of the signal. Furthermore it also can be said, that the amplitude in general differs in its course but also in how strong it is.
+
+\begin{figure}[htb!]
+    \centering
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.5\textwidth]{images/results/inp_guitar_acoustic_014-060-127.png}}&
+        \makebox{\includegraphics[width=0.5\textwidth]{images/results/out_guitar_acoustic_014-060-127.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{input signal ~(a), output signal ~(b).}
+    \label{fig:res_1D_input_output_sig}
+\end{figure}
+
+
+\subsection{Experiments with interpolation in embedding}
+With this kind of 1D convolutional autoencoder first experiments were made, that use interpolation in embedded space to synthesize novel sounds. In chapter \ref{cha:Approach} and \ref{cha:Experiment} the concept has already been described in detail. Having this concept, instrument sources were chosen, which in order got encoded and interpolated together to in order form a new embedding. The next graphic \ref{fig:res_1D_input_interpolation} shows two input instruments that were chosen to create a novel sound. For this representation an acoustic guitar and acoustic brass sample were taken and encoded.
+
+\begin{figure}[htb!]
+    \centering
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/guitar_acoustic_021-055-100.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/brass_acoustic_016-055-100.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{guitar acoustic ~(a), brass acoustic ~(b).}
+    \label{fig:res_1D_input_interpolation}
+\end{figure}
+
+After encoding, the outputs were taken and interpolated as can be seen in the next figure \ref{fig:res_1D_interpolation}a. As it can be seen, those embeddings are a compressed form of the input spectrograms. When looking onto the generated interpolated embedding, it can be said, that this one incorporates both instruments encoded features. Having this new vector, this one was fed into the decoder network to in order generate an output spectrogram that can be seen in \ref{fig:res_1D_interpolation}b. 
+
+\begin{figure}[htb!]
+    \centering
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/interp_emb_guitar_acoustic_021-055-100&brass_acoustic_016-055-100.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/guitar_acoustic_021-055-100&brass_acoustic_016-055-100_output_spec.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{embedding interpolation ~(a), output signal ~(b).}
+    \label{fig:res_1D_interpolation}
+\end{figure}
+
+Having the final spectrogram here as output, it contains both 
+
+\section{Results of experiments with spectrogram frames}
+
+
+\begin{table}[htb!]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+         & \textbf{MSE-Score} \\
+         \hline
+        \textbf{Training} & 9,779 \\
+        \hline
+        \textbf{Validation} & 10,094 \\
+        \hline
+        \textbf{Test} & 7,826 \\
+        \hline
+    \end{tabular}
+    \caption{MSE-Scores 2D convolutional autoencoder - single stride (9 epochs).}
+    \label{tab:res_scores_2Dcae_1str}
+\end{table}
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+         & \textbf{MSE-Score} \\
+         \hline
+        \textbf{Training} & 13,717 \\
+        \hline
+        \textbf{Validation} & 14,056 \\
+        \hline
+        \textbf{Test} & 10,708 \\
+        \hline
+    \end{tabular}
+    \caption{MSE-Scores 2D convolutional autoencoder - double stride (8 epochs).}
+    \label{tab:res_scores_2Dcae_2str}
+\end{table}
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+         & \textbf{MSE-Score} \\
+         \hline
+        \textbf{Training} & 18,292 \\
+        \hline
+        \textbf{Validation} & 19,056 \\
+        \hline
+        \textbf{Test} & 16,655 \\
+        \hline
+    \end{tabular}
+    \caption{MSE-Scores 2D convolutional autoencoder - triple stride.}
+    \label{tab:res_scores_2Dcae_3str}
+\end{table}
+
+\begin{table}[htb!]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+         \textbf{Pitch} & \textbf{single-stride} & \textbf{double-stride} & \textbf{triple-stride}\\
+         \hline
+         \textbf{030} & 7,084 & 9,175 & 12,241\\
+         \hline
+         \textbf{035} & 7,912 & 12,294 & 15,426\\
+         \hline
+         \textbf{040} & 7,292 & 11,205 & 18,639\\
+         \hline
+         \textbf{045} & 7,251 & 12,434 & 22,151\\
+         \hline
+         \textbf{050} & 6,840 & 9,903 & 20,287\\
+         \hline
+         \textbf{055} & 7,535 & 10,434 & 18,102\\
+         \hline
+         \textbf{060} & 7,444 & 10,128 & 17,670\\
+         \hline
+         \textbf{065} & 8,313 & 10,286 & 16,497\\
+         \hline
+         \textbf{070} & 7,410 & 9,868 & 14,894\\
+         \hline
+         \textbf{075} & 7,850 & 9,949 & 14,273\\
+         \hline
+         \textbf{080} & 8,624 & 10,529 & 15,486\\
+         \hline
+         \textbf{085} & 9,299 & 11,090 & 16,598\\
+         \hline
+         \textbf{090} & 8,798 & 11,435 & 16,415\\
+         \hline
+         \textbf{095} & 9,948 & 12,032 & 17,049\\
+         \hline
+         \textbf{100} & 12,346 & 13,179 & 19,812\\
+         \hline
+    \end{tabular}
+    \caption{MSE-Scores for specific pitch classes using 2D convolutional autoencoder.}
+    \label{tab:res_scores_2D_pitch}
+\end{table}
+
+\subsection{Experiments of single reconstruction}
+
+\subsection{Experiments with interpolation in embedding}
+
+
+
+\section{Results with mel-spectrograms}
+
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+         & \textbf{MSE-Score} \\
+         \hline
+        \textbf{Training} & 30,579 \\
+        \hline
+        \textbf{Validation} & 31,084 \\
+        \hline
+        \textbf{Test} & 18,322 \\
+        \hline
+    \end{tabular}
+    \caption{MSE-Scores 2D convolutional autoencoder - single stride (15 epochs) - mel spectrograms.}
+    \label{tab:res_scores_2Dcae_1str_mel}
+\end{table}
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+         & \textbf{MSE-Score} \\
+         \hline
+        \textbf{Training} & 49,685 \\
+        \hline
+        \textbf{Validation} & 48,439 \\
+        \hline
+        \textbf{Test} & 33,689 \\
+        \hline
+    \end{tabular}
+    \caption{MSE-Scores 2D convolutional autoencoder - double stride (21 epochs) - mel spectrogram.}
+    \label{tab:res_scores_2Dcae_2str_mel}
+\end{table}
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+         & \textbf{MSE-Score} \\
+         \hline
+        \textbf{Training} & 62,833 \\
+        \hline
+        \textbf{Validation} & 60,471 \\
+        \hline
+        \textbf{Test} & 43,300 \\
+        \hline
+    \end{tabular}
+    \caption{MSE-Scores 2D convolutional autoencoder - triple stride (68 epochs) - mel spectrogram.}
+    \label{tab:res_scores_2Dcae_3str}
+\end{table}

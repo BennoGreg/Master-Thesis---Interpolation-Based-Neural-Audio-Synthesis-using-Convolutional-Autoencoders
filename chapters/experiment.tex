@@ -96,16 +96,16 @@ As a consequence a different model had to be used, as 2D convolutions were no mo
 
 
 \subsubsection{Training}
-The training process for this experiment, differs in some major points from the previous ones. The main difference lies in the shape of the data. This can be concluded as here just the single frequency vectors, were used for this network and therefore the network itself has 1D convolutions as discussed before. Furthermore, this experiment was originally trained locally with the small subset like before, but later on, access to a GPU-accelerated instance was made available. This GPU-instance, as discussed at the beginning of this chapter, enabled to train complex ML-models with a large amount of data, over a long time. With this possibility, the training dataset could be utilized as this consists of several thousands of audio samples and would be too big to use locally. This does not mean, that the whole dataset was used all the time for training on this instance. With the progress of the project, several trainings with different amounts of data, could be made. Those were:\\
+The training process for this experiment, differs in some major points from the previous ones. The main difference lies in the shape of the data. This can be concluded as here just the single frequency vectors, were used for this network and therefore the network itself has 1D convolutions as discussed before. Furthermore, this experiment was originally trained locally with the small subset like before, but later on, access to a GPU-accelerated instance was made available. This GPU-instance, as discussed at the beginning of this chapter, enabled to train complex ML-models with a large amount of data, over a long time. With this possibility, the training dataset could be utilized as this consists of several thousands of audio samples and would be too big to use locally. This does not mean, that the whole dataset was used all the time for training on this instance. With the progress of the project, several trainings with different amounts of data were made, that impacted the training process.
 
-\begin{itemize}
-    \item \textbf{Single Instrument}
-    \item \textbf{Multiple Instruments (>=2)}
-    \item \textbf{All Instruments}\\
-\end{itemize}
+% \begin{itemize}
+%     \item \textbf{Single Instrument}
+%     \item \textbf{Multiple Instruments (>=2)}
+%     \item \textbf{All Instruments}\\
+% \end{itemize}
 
-\noindent
-Regarding the training performance, some interesting findings and observations could be made which get mentioned when showing the results. 
+%\noindent
+%Regarding the training performance, some interesting findings and observations could be made which get mentioned when showing the results. 
 
 As here single frequency vectors were used, the process of creating a tensor and subsequently the dataset for the dataloader, was different. Here all spectrograms of the pre-defined and pre-processed dataset, were utilized, and the single frequency vectors get concatenated to form one big 3D array in the shape of amount by channels by frequency. To note the amount of channels here is also initially one. While experimenting, regarding the training, also different strategies regarding shuffling were used. First on just the the samples were shuffled resulting in the instruments being mixed, but the frequency vectors were in the same order as in the spectrogram. This stayed the same as after each epoch the data didn't get shuffled. One more successful strategy, was to also shuffle the whole generated array, resulting in the frequency vectors of all instruments being mixed. Furthermore shuffling was also done after each epoch. The same strategies was also applied to the validation dataset, as from this point on also the validation dataset was considered. Not at least as more computational power was present from this point on. The most time, a batch-size of 32 was considered. 
 

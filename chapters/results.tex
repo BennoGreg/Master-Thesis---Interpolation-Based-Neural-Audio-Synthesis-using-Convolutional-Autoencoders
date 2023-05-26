@@ -127,7 +127,7 @@ With this kind of 1D convolutional autoencoder first experiments were made, that
     \label{fig:res_1D_input_interpolation}
 \end{figure}
 
-After encoding, the outputs were taken and interpolated as can be seen in the next figure \ref{fig:res_1D_interpolation}a. As it can be seen, those embeddings are a compressed form of the input spectrograms. When looking onto the generated interpolated embedding, it can be said, that this one incorporates both instruments encoded features. Having this new vector, this one was fed into the decoder network to in order generate an output spectrogram that can be seen in \ref{fig:res_1D_interpolation}b. 
+After encoding, the outputs were taken and interpolated as can be seen in the next figure \ref{fig:res_1D_interpolation}a. As it can be seen, those embeddings are a compressed form of the input spectrograms. When looking onto the generated interpolated embedding, it can be said, that this one incorporates both instruments encoded features. Having this new vector, this one was fed into the decoder network to in order generate an output spectrogram that can be seen in figure \ref{fig:res_1D_interpolation}b. 
 
 \begin{figure}[htb!]
     \centering
@@ -140,61 +140,36 @@ After encoding, the outputs were taken and interpolated as can be seen in the ne
     \label{fig:res_1D_interpolation}
 \end{figure}
 
-Having the final spectrogram here as output, it contains both 
+Having the final spectrogram here as output, it can be seen, that spectral data of both input spectrograms are basicaly contained. Similar to the output spectrogram in figure \ref{fig:res_1D_input_output}b this one also does not contain the impulse (guitar stroke) at the beginning. To finally obtain a listenable sound, the output spectrogram has to get converted back to time-domain, which in this case gets done with the Griffin-Lim algorithm \cite{Griffin1984} as no phase information is present. By listening to the final obtained sample, it can be heard, that it already contains features of both instruments despite the guitar is not as present as expected (guitar stroke not audible). Furthermore the sound contains distortion which is not desirable.
+
+To improve the quality of the output but also to examine the performance of other types of networks some further experiments have been made using 2D convolutions but also additional post-processing steps.
 
 \section{Results of experiments with spectrogram frames}
+The here shown results, correspond to the described experiments in section \ref{sec:exp_spec_slice}. Here again a 2D convolutional autoencoder has been utilized to (re)synthesize audio. As input data for the neural networks, overlapping spectrograms snippets with the length of 3 along the time axis have been considered. In contrast to the previous network, this was supposed to bring better results, regarding the output but especially to preserve transients. As different networks with different stridings (compression) were trained and used, the results should also show the differences in the output but also in their quality regarding audio (re)synthesis. Additionally the encoded data gets examined by calculating the correlation coefficients between samples (mostly of the same pitch). By that it can be seen how much the encodings of different instruments differ. Additionally it also can be examined how good the different networks extract the essential features of the input data. Throughout the project these correlation coefficients got depicted in a so-called correlation matrix. Displaying one here would would not work out sufficiently, as because of its many values, those are hardly readable without zooming in. Because of this, just the findings get discussed later on in chapter Discussion. Finally also additional post-processing steps get applied, which help to correct the energy and thus the quality of the output. The results shown here are without energy correction, but the effect will also be discussed later on in the discussion.
 
+The following table \ref{tab:res_scores_2Dcae} shows the MSE error scores of the different 2D convolutional networks. As mentioned in chapter \ref{cha:Experiment}, three networks were trained, that differ in their configuration regarding striding and thus have different embedding sizes. In this table it can be seen that by using a different amount of strides has a an impact onto the score. The network with just one stride on each side, has the lowest error whereas the networks with two or three strides have a significant higher error. Regarding the difference between training, validation and testing error all three networks show the same behaviour as the validation error is higher then the training error with the test score beeing the best. 
 
 \begin{table}[htb!]
     \centering
-    \begin{tabular}{|c|c|}
+    \begin{tabular}{|c|c|c|c|}
         \hline
-         & \textbf{MSE-Score} \\
+         & \textbf{single-stride} & \textbf{double-stride} & \textbf{triple-stride} \\
          \hline
-        \textbf{Training} & 9,779 \\
+        \textbf{Training} & 9,779 & 13,717 & 18,292 \\
         \hline
-        \textbf{Validation} & 10,094 \\
+        \textbf{Validation} & 10,094 & 14,056 & 19,056 \\
         \hline
-        \textbf{Test} & 7,826 \\
+        \textbf{Test} & 7,826 & 10,708 & 16,655 \\
         \hline
     \end{tabular}
-    \caption{MSE-Scores 2D convolutional autoencoder - single stride (9 epochs).}
-    \label{tab:res_scores_2Dcae_1str}
+    \caption{MSE-Scores 2D convolutional autoencoder - single stride (9 epochs), double stride (8 epochs), triple stride (16 epochs).}
+    \label{tab:res_scores_2Dcae}
 \end{table}
 
-\begin{table}[]
-    \centering
-    \begin{tabular}{|c|c|}
-        \hline
-         & \textbf{MSE-Score} \\
-         \hline
-        \textbf{Training} & 13,717 \\
-        \hline
-        \textbf{Validation} & 14,056 \\
-        \hline
-        \textbf{Test} & 10,708 \\
-        \hline
-    \end{tabular}
-    \caption{MSE-Scores 2D convolutional autoencoder - double stride (8 epochs).}
-    \label{tab:res_scores_2Dcae_2str}
-\end{table}
+Compared to the error score of the 1D convolutional network, it can be said, that all error scores are significantly higher. In case of this work, this does not mean, that the quality of the output is worse, especially regarding the final output sound. The latter will get discussed later on in the discussion of this work
 
-\begin{table}[]
-    \centering
-    \begin{tabular}{|c|c|}
-        \hline
-         & \textbf{MSE-Score} \\
-         \hline
-        \textbf{Training} & 18,292 \\
-        \hline
-        \textbf{Validation} & 19,056 \\
-        \hline
-        \textbf{Test} & 16,655 \\
-        \hline
-    \end{tabular}
-    \caption{MSE-Scores 2D convolutional autoencoder - triple stride.}
-    \label{tab:res_scores_2Dcae_3str}
-\end{table}
+As during the previous experiment also the scores regarding different pitches were calculated, the next table \ref{tab:res_scores_2D_pitch} shows the different scores regarding pitches ranging from 30 to 100. Similar to the 1D convolutional network, the error scores regarding the pitch do not show a specific trend. Having the same error scores this also does not mean, that all pitches have the same audible quality. More on that gets discussed in chapter \ref{cha:Discussion}. 
+
 
 \begin{table}[htb!]
     \centering
@@ -238,61 +213,217 @@ Having the final spectrogram here as output, it contains both
 \end{table}
 
 \subsection{Experiments of single reconstruction}
+Having mentioned the error scores regarding reconstructing spectral audio data, those cannot be taken solely to assess the performance of the network. Therefore experiments, like with the previous network, were conducted in recreating single spectrograms. With those the ability towards reconstructing audio spectrograms becomes assessed visually and auditorily for the purpose of audio (re)synthesis.
+For comparative reasons, the same spectrogram source has been chosen like with the previous network. As the original input spectrogram has already been shown in figure \ref{fig:res_1D_input_output}a, here just the output of the encoder part (embedding) but also the total output gets depicted (see figures \ref{fig:res_single_str_2D_output_emb}, \ref{fig:res_double_str_2D_output_emb} and \ref{fig:res_triple_str_2D_output_emb}).
+
+\begin{figure}[htb!]
+    \centering
+    \captionsetup{justification=centering}
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/single_str/out_guitar_acoustic_014-060-127.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/single_str/emb_guitar_acoustic_014-060-127.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{Reconstruction of guitar acoustic ~(a), Embedding of guitar acoustic ~(b)\\single stride model.}
+    \label{fig:res_single_str_2D_output_emb}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    \captionsetup{justification=centering}
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/double_str/guitar_acoustic_014-060-127.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/double_str/emb_guitar_acoustic_014-060-127.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{Reconstruction of guitar acoustic ~(a), Embedding of guitar acoustic ~(b)\\double stride model.}
+    \label{fig:res_double_str_2D_output_emb}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    \captionsetup{justification=centering}
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/triple_str/guitar_acoustic_014-060-127.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/triple_str/emb_guitar_acoustic_014-060-127.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{Reconstruction of guitar acoustic ~(a), Embedding of guitar acoustic ~(b)\\triple stride model.}
+    \label{fig:res_triple_str_2D_output_emb}
+\end{figure}
 
 \subsection{Experiments with interpolation in embedding}
 
+\begin{figure}[htb!]
+    \centering
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/single_str/inter_guitar_acoustic_021-055-100&brass_acoustic_016-055-100_original_0.5.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/single_str/guitar_acoustic_021-055-100&brass_acoustic_016-055-100_output_0.5.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{embedding interpolation ~(a), output signal ~(b).}
+    \label{fig:res_single_str_2D_inter_output}
+\end{figure}
 
+\begin{figure}[htb!]
+    \centering
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/double_str/inter_guitar_acoustic_021-055-100&brass_acoustic_016-055-100_original_0.5.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/double_str/guitar_acoustic_021-055-100&brass_acoustic_016-055-100_output_0.5.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{embedding interpolation ~(a), output signal ~(b).}
+    \label{fig:res_double_str_2D_inter_output}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/triple_str/inter_guitar_acoustic_021-055-100&brass_acoustic_016-055-100_original_0.5.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/triple_str/guitar_acoustic_021-055-100&brass_acoustic_016-055-100_output_0.5.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{embedding interpolation ~(a), output signal ~(b).}
+    \label{fig:res_triple_str_2D_inter_output}
+\end{figure}
 
 \section{Results with mel-spectrograms}
 
+The final experiments are again done with a 2D convolutional network, but using mel-scale instead of log-magnitude. 
 
-\begin{table}[]
+\begin{table}[htb!]
     \centering
-    \begin{tabular}{|c|c|}
+    \begin{tabular}{|c|c|c|c|}
         \hline
-         & \textbf{MSE-Score} \\
+         & \textbf{single-stride} & \textbf{double-stride} & \textbf{triple-stride} \\
          \hline
-        \textbf{Training} & 30,579 \\
+        \textbf{Training} & 30,579 & 49,685 & 62,833 \\
         \hline
-        \textbf{Validation} & 31,084 \\
+        \textbf{Validation} & 31,084 & 48,439 & 60,471\\
         \hline
-        \textbf{Test} & 18,322 \\
+        \textbf{Test} & 18,322 & 33,689 & 43,300\\
         \hline
     \end{tabular}
-    \caption{MSE-Scores 2D convolutional autoencoder - single stride (15 epochs) - mel spectrograms.}
+    \caption{MSE-Scores 2D convolutional autoencoder - mel-scale - single stride (15 epochs), double stride (21 epochs), triple stride (68 epochs)}
     \label{tab:res_scores_2Dcae_1str_mel}
 \end{table}
 
-\begin{table}[]
-    \centering
-    \begin{tabular}{|c|c|}
-        \hline
-         & \textbf{MSE-Score} \\
-         \hline
-        \textbf{Training} & 49,685 \\
-        \hline
-        \textbf{Validation} & 48,439 \\
-        \hline
-        \textbf{Test} & 33,689 \\
-        \hline
-    \end{tabular}
-    \caption{MSE-Scores 2D convolutional autoencoder - double stride (21 epochs) - mel spectrogram.}
-    \label{tab:res_scores_2Dcae_2str_mel}
+\begin{table}[htb!]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{pitch} & \textbf{single-stride} & \textbf{double-stride} & \textbf{triple-stride} \\ \hline
+\textbf{030}   & 17,178                 & 24,567                 & 30,302                 \\ \hline
+\textbf{035}   & 18,380                 & 26,142                 & 36,509                 \\ \hline
+\textbf{040}   & 19,382                 & 34,125                 & 44,062                 \\ \hline
+\textbf{045}   & 22,036                 & 55,770                 & 51,097                 \\ \hline
+\textbf{050}   & 22,398                 & 41,101                 & 49,810                 \\ \hline
+\textbf{055}   & 22,159                 & 43,215                 & 56,664                 \\ \hline
+\textbf{060}   & 21,472                 & 40,493                 & 54,690                 \\ \hline
+\textbf{065}   & 22,303                 & 40,140                 & 51,926                 \\ \hline
+\textbf{070}   & 23,875                 & 41,950                 & 50,904                 \\ \hline
+\textbf{075}   & 24,571                 & 37,424                 & 49,297                 \\ \hline
+\textbf{080}   & 29,053                 & 43,572                 & 60,926                 \\ \hline
+\textbf{085}   & 29,395                 & 46,822                 & 62,750                 \\ \hline
+\textbf{090}   & 33,316                 & 51,408                 & 72,206                 \\ \hline
+\textbf{095}   & 31,385                 & 51,593                 & 70,607                 \\ \hline
+\textbf{100}   & 32,129                 & 51,426                 & 70,890                 \\ \hline
+\end{tabular}
+\caption{MSE-Scores for specific pitch classes using 2D convolutional autoencoder using mel-scale.}
+\label{tab:res_scores_2D_pitch_mel}
 \end{table}
 
-\begin{table}[]
+\subsection{Experiments of single reconstruction}
+
+\begin{figure}[htb!]
     \centering
-    \begin{tabular}{|c|c|}
-        \hline
-         & \textbf{MSE-Score} \\
-         \hline
-        \textbf{Training} & 62,833 \\
-        \hline
-        \textbf{Validation} & 60,471 \\
-        \hline
-        \textbf{Test} & 43,300 \\
-        \hline
-    \end{tabular}
-    \caption{MSE-Scores 2D convolutional autoencoder - triple stride (68 epochs) - mel spectrogram.}
-    \label{tab:res_scores_2Dcae_3str}
-\end{table}
+    \includegraphics[width=0.5\textwidth]{images/results/mel_guitar_acoustic_014-060-127.png}
+    \caption{original mel-spectrogram of guitar acoustic.}
+    \label{fig:res_2D_mel_guit}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    \captionsetup{justification=centering}
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_single_str/guitar_acoustic_014-060-127.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_single_str/emb_guitar_acoustic_014-060-127.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{Reconstruction of guitar acoustic ~(a), Embedding of guitar acoustic ~(b)\\single stride model.}
+    \label{fig:res_mel_single_str_2D_output_emb}
+\end{figure}
+
+
+
+\begin{figure}[htb!]
+    \centering
+    \captionsetup{justification=centering}
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_double_str/guitar_acoustic_014-060-127.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_double_str/emb_guitar_acoustic_014-060-127.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{Reconstruction of guitar acoustic ~(a), Embedding of guitar acoustic ~(b)\\double stride model.}
+    \label{fig:res_mel_double_str_2D_output_emb}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    \captionsetup{justification=centering}
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_triple_str/guitar_acoustic_014-060-127.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_triple_str/emb_guitar_acoustic_014-060-127.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{Reconstruction of guitar acoustic ~(a), Embedding of guitar acoustic ~(b)\\triple stride model.}
+    \label{fig:res_mel_triple_str_2D_output_emb}
+\end{figure}
+
+\subsection{Experiments with interpolation in embedding}
+
+\begin{figure}[htb!]
+    \centering
+    \captionsetup{justification=centering}
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_guitar_acoustic_021-055-100.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_brass_acoustic_016-055-100.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{original guitar acoustic ~(a), original brass acoustic
+    ~(b)}
+    \label{fig:res_mel_original_guit_brass}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_single_str/inter_guitar_acoustic_021-055-100&brass_acoustic_016-055-100_original_0.5.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_single_str/guitar_acoustic_021-055-100&brass_acoustic_016-055-100_output_0.5.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{embedding interpolation ~(a), output signal ~(b).}
+    \label{fig:res_mel_single_str_2D_inter_output}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_double_str/inter_guitar_acoustic_021-055-100&brass_acoustic_016-055-100_original_0.5.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_double_str/guitar_acoustic_021-055-100&brass_acoustic_016-055-100_output_0.5.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{embedding interpolation ~(a), output signal ~(b).}
+    \label{fig:res_mel_double_str_2D_inter_output}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_triple_str/inter_guitar_acoustic_021-055-100&brass_acoustic_016-055-100_original_0.5.png}}&
+        \makebox{\includegraphics[width=0.55\textwidth]{images/results/mel_triple_str/guitar_acoustic_021-055-100&brass_acoustic_016-055-100_output_0.5.png}}\\
+        (a) & (b)
+    \end{tabular}}
+    \caption{embedding interpolation ~(a), output signal ~(b).}
+    \label{fig:res_mel_triple_str_2D_inter_output}
+\end{figure}

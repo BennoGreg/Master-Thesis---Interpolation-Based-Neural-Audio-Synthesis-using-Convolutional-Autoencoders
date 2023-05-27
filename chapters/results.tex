@@ -147,7 +147,7 @@ To improve the quality of the output but also to examine the performance of othe
 \section{Results of experiments with spectrogram frames}
 The here shown results, correspond to the described experiments in section \ref{sec:exp_spec_slice}. Here again a 2D convolutional autoencoder has been utilized to (re)synthesize audio. As input data for the neural networks, overlapping spectrograms snippets with the length of 3 along the time axis have been considered. In contrast to the previous network, this was supposed to bring better results, regarding the output but especially to preserve transients. As different networks with different stridings (compression) were trained and used, the results should also show the differences in the output but also in their quality regarding audio (re)synthesis. Additionally the encoded data gets examined by calculating the correlation coefficients between samples (mostly of the same pitch). By that it can be seen how much the encodings of different instruments differ. Additionally it also can be examined how good the different networks extract the essential features of the input data. Throughout the project these correlation coefficients got depicted in a so-called correlation matrix. Displaying one here would would not work out sufficiently, as because of its many values, those are hardly readable without zooming in. Because of this, just the findings get discussed later on in chapter Discussion. Finally also additional post-processing steps get applied, which help to correct the energy and thus the quality of the output. The results shown here are without energy correction, but the effect will also be discussed later on in the discussion.
 
-The following table \ref{tab:res_scores_2Dcae} shows the MSE error scores of the different 2D convolutional networks. As mentioned in chapter \ref{cha:Experiment}, three networks were trained, that differ in their configuration regarding striding and thus have different embedding sizes. In this table it can be seen that by using a different amount of strides has a an impact onto the score. The network with just one stride on each side, has the lowest error whereas the networks with two or three strides have a significant higher error. Regarding the difference between training, validation and testing error all three networks show the same behaviour as the validation error is higher then the training error with the test score beeing the best. 
+The following table \ref{tab:res_scores_2Dcae} shows the MSE error scores of the different 2D convolutional networks. As mentioned in chapter \ref{cha:Experiment}, three networks were trained, that differ in their configuration regarding striding and thus have different embedding sizes. These networks therefore are called single, double- and triple stride networks to distingush them in this work. In table \ref{tab:res_scores_2Dcae} it can be seen that by using a different amount of strides, this has a an impact onto the score. The network with just one stride on each side, has the lowest error whereas the networks with two or three strides have a significant higher error. Regarding the difference between training, validation and testing error all three networks show the same behaviour as the validation error is higher then the training error with the test score beeing the best. 
 
 \begin{table}[htb!]
     \centering
@@ -214,7 +214,7 @@ As during the previous experiment also the scores regarding different pitches we
 
 \subsection{Experiments of single reconstruction}
 Having mentioned the error scores regarding reconstructing spectral audio data, those cannot be taken solely to assess the performance of the network. Therefore experiments, like with the previous network, were conducted in recreating single spectrograms. With those the ability towards reconstructing audio spectrograms becomes assessed visually and auditorily for the purpose of audio (re)synthesis.
-For comparative reasons, the same spectrogram source has been chosen like with the previous network. As the original input spectrogram has already been shown in figure \ref{fig:res_1D_input_output}a, here just the output of the encoder part (embedding) but also the total output gets depicted (see figures \ref{fig:res_single_str_2D_output_emb}, \ref{fig:res_double_str_2D_output_emb} and \ref{fig:res_triple_str_2D_output_emb}).
+For comparative reasons, the same spectrogram source has been chosen like with the previous network. As the original input spectrogram has already been shown in figure \ref{fig:res_1D_input_output}a, here just the output of the encoder part (embedding) but also the total output gets depicted (see figures \ref{fig:res_single_str_2D_output_emb}, \ref{fig:res_double_str_2D_output_emb} and \ref{fig:res_triple_str_2D_output_emb}). The spectrograms in each of these graphics were generated with single-, double- and triple-stride networks and do not contain the energy correcting post-processing mechanism. Despite of this fact, it can be seen when looking onto all the output spectrograms (\ref{fig:res_single_str_2D_output_emb}a, \ref{fig:res_double_str_2D_output_emb}a and \ref{fig:res_triple_str_2D_output_emb}a), that all preserve the broad spectra at the beginning and ending of the spectrograms, especially by looking onto the first one. When comparing again the low energy areas of the input spectrogram, to the output spectrograms, it can be said, that they also contain similar little energy. Again it can also be seen, that the embedding looks like a spectrogram but in a compressed form of the input, as it also contains similar structures. Contrary to the embedding in figure \ref{fig:res_1D_emb} the high energy areas have positive numbers while original low energy area have negative numbers.
 
 \begin{figure}[htb!]
     \centering
@@ -228,6 +228,8 @@ For comparative reasons, the same spectrogram source has been chosen like with t
     \label{fig:res_single_str_2D_output_emb}
 \end{figure}
 
+With a look on the output of the double-stride network (figure \ref{fig:res_double_str_2D_output_emb}a), it also can be said, that the broad spectra are preserved but with less energy. This can be also noticed when looking on the output spectrogram of the triple stride network (figure \ref{fig:res_triple_str_2D_output_emb}). The latter also shows less energy in the high energy areas and less "precise harmonics" (washed out). 
+
 \begin{figure}[htb!]
     \centering
     \captionsetup{justification=centering}
@@ -239,6 +241,8 @@ For comparative reasons, the same spectrogram source has been chosen like with t
     \caption{Reconstruction of guitar acoustic ~(a), Embedding of guitar acoustic ~(b)\\double stride model.}
     \label{fig:res_double_str_2D_output_emb}
 \end{figure}
+
+Looking onto the embeddings of the two networks it can be said, that those contain signifcantly less values across the y-axis. Comparing it to the input but also the output, despite of the significant compression, the significant harmonic features and general structures are present as positive numbers (regarding the colorscale). As concerning the double strided network, the embedding still has a fine granularity contrary to the one obtained by the triple strided network.
 
 \begin{figure}[htb!]
     \centering
@@ -253,6 +257,8 @@ For comparative reasons, the same spectrogram source has been chosen like with t
 \end{figure}
 
 \subsection{Experiments with interpolation in embedding}
+The results in this section show the resulting outputspectrograms, that got generated by interpolation of the embedding space vectors. This has already been done with the 1D convolutional network where novel sounds could be generated. As with the 2D convolutional networks used in this experiment, promising results in reconstructing single spectrograms could be obtained, this experiments yield interesting results. Not at least, as the embedding got more compressed, this also effects synthesizing new audio, as this is done by interpolating the embeddings. The following graphics (\ref{fig:res_single_str_2D_inter_output}, \ref{fig:res_double_str_2D_inter_output} and \ref{fig:res_tripe} show again the interpolation between the same two instrumental sources, like previously for comparative reasons. Again also the resulting output spectrogram gets displayed to see the final result. The audititory quality again gets assessed and discussed in the next chapter.
+When looking at the embeddings in the three graphics, that after interpolating, the features of both instruments are visible in the result. Here it can be seen that the "harmonic" features of the brass sample do not fade contrary to the guitar samples. Nevertheless because of the interpolation the features are present but having lower values as it interpolates mostly between negative and positive numbers. The areas where the both samples have common features (lower harmonics), rather stay equally valued as those have close values. 
 
 \begin{figure}[htb!]
     \centering
@@ -265,6 +271,8 @@ For comparative reasons, the same spectrogram source has been chosen like with t
     \label{fig:res_single_str_2D_inter_output}
 \end{figure}
 
+By looking again on the decoded output it can be seen, that again both instruments are present. Compared to the result in the first experiments, the guitar sample is more present with these kind of networks. Contrary to the experiment with single sample reconstruction, here the difference between the different strided networks, can be noticed even more. With special notice to the higher harmonics of the original brass samples. Those harmonics appear more precise with the single strided network (see figure \ref{fig:res_single_str_2D_inter_output}b). In the output of the double-stride network in figure \ref{fig:res_double_str_2D_inter_output}b the "contours" coming from the brass sample, are less sharp then with the single stride.
+
 \begin{figure}[htb!]
     \centering
     \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
@@ -276,6 +284,8 @@ For comparative reasons, the same spectrogram source has been chosen like with t
     \label{fig:res_double_str_2D_inter_output}
 \end{figure}
 
+Taking the output of the triple strided network (figure \ref{fig:res_triple_str_2D_inter_output}) into account, the difference to the other networks can be seen clearly. The encoded features, again contain the same structure as the input spectrograms, but due to the three-fold striding, just the most significant information is present. Comparing the interpolated embeddings it also can be said that in the latter, the guitar features can be recognized better. Looking at the final output spectrogram in \ref{fig:res_triple_str_2D_inter_output}b it can be seen, that the original fine harmonics aren't present anymore. They are rather washed out. Also the fine changes over time is not as precisely present as with previous network configurations. Nevertheless both instrumental features can be recognized in the final output. 
+
 \begin{figure}[htb!]
     \centering
     \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
@@ -283,9 +293,11 @@ For comparative reasons, the same spectrogram source has been chosen like with t
         \makebox{\includegraphics[width=0.55\textwidth]{images/results/triple_str/guitar_acoustic_021-055-100&brass_acoustic_016-055-100_output_0.5.png}}\\
         (a) & (b)
     \end{tabular}}
-    \caption{embedding interpolation ~(a), output signal ~(b).}
+    \caption{embedding interpolation ~(a), output signal ~(b)}
     \label{fig:res_triple_str_2D_inter_output}
 \end{figure}
+
+Again in the discussion part, the auditive quality of all outputs present here, with and without energy correction, gets assessed and braught into relation with the here displayed spectrograms.
 
 \section{Results with mel-spectrograms}
 

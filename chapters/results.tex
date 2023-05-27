@@ -297,11 +297,13 @@ Taking the output of the triple strided network (figure \ref{fig:res_triple_str_
     \label{fig:res_triple_str_2D_inter_output}
 \end{figure}
 
-Again in the discussion part, the auditive quality of all outputs present here, with and without energy correction, gets assessed and braught into relation with the here displayed spectrograms.
+Again in the discussion part, the auditive quality of all outputs presented here, with and without energy correction, gets assessed and brought into relation with the here displayed spectrograms.
 
 \section{Results with mel-spectrograms}
 
-The final experiments are again done with a 2D convolutional network, but using mel-scale instead of log-magnitude. 
+The final experiments are again done with a 2D convolutional network, but using mel-scale instead of log-magnitude. In chapter \ref{cha:Experiment} under section \ref{sec:exp_mel} an introduction to the mel-scale has been given, as experiments were done using this scale. As this scale is a compressed version of the log-magnitude scale and emphasizes the lower frequencies, these experiments are expected to bring different but interesting results. This is again meant regarding the model performance but also towards the quality of reconstructing spectrograms with or without modification of the embeddings. The results again get depicted in tables filled with the MSE scores of training, validation and testing but also the scores regarding specific pitch classes of the test set. Later on again graphics containing the output spectrograms and embeddings with and without interpolation. Again three different networks with single, double and triple striding were used. Those are similar in their structure to the ones used with log-magnitude spectrograms, which was already explained in the previous chapter.
+
+The following table \ref{tab:res_scores_2D_mel} shows the training, validation and testing scores of all three different networks. First of all the MSE scores of all networks are significantly, higher than the ones of the log-magnitude networks. An exception makes the testing score of the single-stride network as it is equally to the training score of the triple-strided log-magnitude network. The scores between the networks, also increase with the amount of compression, making the single-stride network again the best performing network regarding its score. Interestingly the validation score of the single-stride network, is the only one that is higher as its corresponding training score. The double- and triple-stride networks therefore show that they have a lower score on reconstructing unseen data. Again the auditory quality will get assessed in the next chapter \ref{cha:Discussion}.
 
 \begin{table}[htb!]
     \centering
@@ -317,7 +319,7 @@ The final experiments are again done with a 2D convolutional network, but using 
         \hline
     \end{tabular}
     \caption{MSE-Scores 2D convolutional autoencoder - mel-scale - single stride (15 epochs), double stride (21 epochs), triple stride (68 epochs)}
-    \label{tab:res_scores_2Dcae_1str_mel}
+    \label{tab:res_scores_2D_mel}
 \end{table}
 
 \begin{table}[htb!]

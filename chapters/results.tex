@@ -168,7 +168,7 @@ The following table \ref{tab:res_scores_2Dcae} shows the MSE error scores of the
 
 Compared to the error score of the 1D convolutional network, it can be said, that all error scores are significantly higher. In case of this work, this does not mean, that the quality of the output is worse, especially regarding the final output sound. The latter will get discussed later on in the discussion of this work
 
-As during the previous experiment also the scores regarding different pitches were calculated, the next table \ref{tab:res_scores_2D_pitch} shows the different scores regarding pitches ranging from 30 to 100. Similar to the 1D convolutional network, the error scores regarding the pitch do not show a specific trend. Having the same error scores this also does not mean, that all pitches have the same audible quality. More on that gets discussed in chapter \ref{cha:Discussion}. 
+As during the previous experiment also the scores regarding different pitches were calculated, the next table \ref{tab:res_scores_2D_pitch} shows the different scores regarding pitches ranging from 30 to 100. Similar to the 1D convolutional network, the error scores regarding the pitch do not show a specific trend. Interestingly the scores of the triple-strided network has some rather strong outliers regarding samples around the classes 045-050. Having the same error scores this also does not mean, that all pitches have the same audible quality. More on that gets discussed in chapter \ref{cha:Discussion}. 
 
 
 \begin{table}[htb!]
@@ -307,6 +307,7 @@ The following table \ref{tab:res_scores_2D_mel} shows the training, validation a
 
 \begin{table}[htb!]
     \centering
+    \captionsetup{justification=Centering}
     \begin{tabular}{|c|c|c|c|}
         \hline
          & \textbf{single-stride} & \textbf{double-stride} & \textbf{triple-stride} \\
@@ -321,6 +322,8 @@ The following table \ref{tab:res_scores_2D_mel} shows the training, validation a
     \caption{MSE-Scores 2D convolutional autoencoder - mel-scale - single stride (15 epochs), double stride (21 epochs), triple stride (68 epochs)}
     \label{tab:res_scores_2D_mel}
 \end{table}
+
+Like in the previous experiments, the network performance has been evaluated towards certain pitch classes. The following table \ref{tab:res_scores_2D_pitch_mel} shows the MSE scores of different pitch classes. For comparative reasons, again they got categorized on a scale from 30 to 100 in 5 steps. Contrary to those scores in the previous experiments, here the values show, that the lower pitched samples have the best score. With some exceptions/outliers, the error scores increase with a clear trend, the higher pitched the used samples were. Interestingly the difference in the score, between the highest and lowest used samples, increases, the more compression is used. 
 
 \begin{table}[htb!]
 \centering
@@ -348,6 +351,7 @@ The following table \ref{tab:res_scores_2D_mel} shows the training, validation a
 \end{table}
 
 \subsection{Experiments of single reconstruction}
+Similar to the other experiments to assess the ability of reconstructing spectrograms and therefore recreate audio samples, in this section the embeddings and corresponding output spectrograms are depicted. There again the properties and respective differences to the other experiments get assessed. Regarding the auditory quality the results get discussed in chapter \ref{cha:Discussion}. The here shown results again correspond just to the reconstruction of single samples without interpolation. As in these last experiments the mel-scale as different scale was used, the corresponding input spectrograms are shown in advance. Figure \ref{fig:res_2D_mel_guit} shows the input spectrogram of the single reconstruction experiments.
 
 \begin{figure}[htb!]
     \centering
@@ -355,6 +359,8 @@ The following table \ref{tab:res_scores_2D_mel} shows the training, validation a
     \caption{original mel-spectrogram of guitar acoustic.}
     \label{fig:res_2D_mel_guit}
 \end{figure}
+
+
 
 \begin{figure}[htb!]
     \centering

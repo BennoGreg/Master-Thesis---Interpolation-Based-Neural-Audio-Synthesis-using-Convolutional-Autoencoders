@@ -1,7 +1,7 @@
 \chapter[Results]{Results}
 \label{cha:Results}
 
-This chapter, shows the results that could be obtained using, the experiments, mentioned in chapter \ref{cha:Experiment}. Those results contain either numbers, for assessing the model performance with a certain error performance, but also of graphics, displaying the outputs of the models. The outputs of the models, being spectrograms, will get compared with their corresponding input spectrograms. As the output of the encoder part (embedding) play a crucial role regarding audio synthesis, those also get displayed and assessed further on. Some additional graphics like signal plots Regarding the final listenable sounds, those get discussed in the next chapter.
+This chapter, shows the results that could be obtained through the experiments, mentioned in chapter \ref{cha:Experiment}. Those results contain either numbers, for assessing the model performance with a certain error performance, but also of graphics, displaying the outputs of the models. The outputs of the models, being spectrograms, will get compared with their corresponding input spectrograms. As the output of the encoder part (embedding) play a crucial role regarding audio synthesis, those also get displayed and assessed further on. Some additional graphics containing additional spectrograms, embeddings and signal plots will get displayed in the appendix \ref{app:addional_graphics}. Regarding the final listenable sounds, those get discussed in the next chapter.
 
 \section{Results regarding models with single Frequency Vectors}
 As described in chapter \ref{cha:Experiment} experiments have been conducted by using the single frequency vectors of the spectrograms. As a model, a 18 layer deep neural network with 1D convolutions has been trained on the reconstruction of single frequency vectors. 
@@ -20,8 +20,7 @@ Throughout the development different settings have been tried out in order to fi
         \textbf{Test} & 1,190 \\
         \hline
     \end{tabular}
-    %\caption{MSE-Scores 1D convolutional autoencoder (8 epochs)}
-    \caption{MSE-Scores 1D convolutional autoencoder}
+    \caption{MSE-Scores 1D convolutional autoencoder}%\caption{MSE-Scores 1D convolutional autoencoder (8 epochs)}
     \label{tab:res_scores_1Dcae}
 \end{table}
 
@@ -134,9 +133,7 @@ After encoding, the outputs were taken and interpolated as can be seen in the ne
     \label{fig:res_1D_interpolation}
 \end{figure}
 
-Having the final spectrogram here as output, it can be seen, that spectral data of both input spectrograms are basicaly contained. Similar to the output spectrogram in figure \ref{fig:res_1D_input_output}b this one also does not contain the impulse (guitar stroke) at the beginning. To finally obtain a listenable sound, the output spectrogram has to get converted back to time-domain, which in this case gets done with the Griffin-Lim algorithm \cite{Griffin1984} as no phase information is present. 
-
-To improve the quality of the output but also to examine the performance of other types of networks some further experiments have been made using 2D convolutions but also additional post-processing steps.
+Having the final spectrogram here as output, it can be seen, that spectral data of both input spectrograms are basicaly contained. Similar to the output spectrogram in figure \ref{fig:res_1D_input_output}b this one also does not contain the impulse (guitar stroke) at the beginning. To finally obtain a listenable sound, the output spectrogram has to get converted back to time-domain, which in this case gets done with the Griffin-Lim algorithm \cite{Griffin1984} as no phase information is present. To improve the quality of the output but also to examine the performance of other types of networks some further experiments have been made using 2D convolutions but also additional post-processing steps.
 
 \section{Results of experiments with spectrogram frames}
 The here shown results, correspond to the described experiments in section \ref{sec:exp_spec_slice}. Here again a 2D convolutional autoencoder has been utilized to (re)synthesize audio. As input data for the neural networks, overlapping spectrograms snippets with the length of 3 along the time axis have been considered. In contrast to the previous network, this was supposed to bring better results, regarding the output but especially to preserve transients. As different networks with different stridings (compression) were trained and used, the results should also show the differences in the output but also in their quality regarding audio (re)synthesis. Additionally the encoded data gets examined by calculating the correlation coefficients between samples (mostly of the same pitch). By that it can be seen how much the encodings of different instruments differ. Additionally it also can be examined how good the different networks extract the essential features of the input data. Throughout the project these correlation coefficients got depicted in a so-called correlation matrix. Displaying one here would would not work out sufficiently, as because of its many values, those are hardly readable without zooming in. Because of this, just the findings get discussed later on in chapter Discussion. Finally also additional post-processing steps get applied, which help to correct the energy and thus the quality of the output. The results shown here are without energy correction, but the effect will also be discussed later on in the discussion.
@@ -280,7 +277,7 @@ By looking again on the decoded output it can be seen, that again both instrumen
     \label{fig:res_double_str_2D_inter_output}
 \end{figure}
 
-Taking the output of the triple strided network (figure \ref{fig:res_triple_str_2D_inter_output}) into account, the difference to the other networks can be seen clearly. The encoded features, again contain the same structure as the input spectrograms, but due to the three-fold striding, just the most significant information is present. Comparing the interpolated embeddings it also can be said that in the latter, the guitar features can be recognized better. Looking at the final output spectrogram in \ref{fig:res_triple_str_2D_inter_output}b it can be seen, that the original fine harmonics aren't present anymore. The energy values of the different frequencies over time don't remain constant and show "washed out" contours. Also the fine changes over time are not as precisely present as with previous network configurations. Nevertheless both instrumental features can be recognized in the final output. 
+Taking the output of the triple strided network (figure \ref{fig:res_triple_str_2D_inter_output}) into account, the difference to the other networks can be seen clearly. The encoded features, again contain the same structure as the input spectrograms, but due to the three-fold striding, just the most significant information is present. Comparing the interpolated embeddings it also can be said that in the latter, the guitar features can be recognized better. Looking at the final output spectrogram in \ref{fig:res_triple_str_2D_inter_output}b it can be seen, that the original fine harmonics aren't present anymore. The energy values of the different frequencies over time don't remain constant and show "washed out" contours. Also the fine changes over time are not as precisely present as with previous network configurations. Nevertheless both instrumental features can be recognized in the final output. Again in the discussion part, the auditive quality of all outputs presented here, with and without energy correction, gets assessed and brought into relation with the here displayed spectrograms.
 
 \begin{figure}[htb!]
     \centering
@@ -293,7 +290,7 @@ Taking the output of the triple strided network (figure \ref{fig:res_triple_str_
     \label{fig:res_triple_str_2D_inter_output}
 \end{figure}
 
-Again in the discussion part, the auditive quality of all outputs presented here, with and without energy correction, gets assessed and brought into relation with the here displayed spectrograms.
+
 
 \section{Results with mel-spectrograms}
 
@@ -315,8 +312,7 @@ The following table \ref{tab:res_scores_2D_mel} shows the training, validation a
         \textbf{Test} & 18,322 & 33,689 & 43,300\\
         \hline
     \end{tabular}
-    \caption{MSE-Scores 2D convolutional autoencoder with log-mel spectrograms - single stride, double stride, triple stride}
-    % \caption{MSE-Scores 2D convolutional autoencoder - mel-scale - single stride (15 epochs), double stride (21 epochs), triple stride (68 epochs)}
+    \caption{MSE-Scores 2D convolutional autoencoder with log-mel spectrograms - single stride, double stride, triple stride.}
     \label{tab:res_scores_2D_mel}
 \end{table}
 
@@ -386,7 +382,7 @@ In figure \ref{fig:res_mel_single_str_2D_output_emb}a the output of the single s
     \label{fig:res_mel_double_str_2D_output_emb}
 \end{figure}
 
-Comparing the result of the double-strided networks with the one of the triple strided network, significant differences can be discovered. Especially when looking onto the embedding, it can be discovered, that due to the small amount of values on the y-axis the features are less distinguishable. Thus it is also more difficult to describe them. Nevertheless it can be said for this input spectrogram, that the colored areas still represent the most significant features that describe the input. Interestingly when looking onto the output spectrogram in \ref{fig:res_mel_triple_str_2D_output_emb}a, depending the lower harmonics, no differences can be seen to the previous output spectrograms. The part around 4096 Hz also shows some distinct spots that contain more energy, which are not present in the input spectrogram (artefacts).
+Comparing the result of the double-strided network with the one of the triple strided network, significant differences can be discovered. Especially when looking onto the embedding, it can be discovered, that due to the small amount of values on the y-axis the features are less distinguishable. Thus it is also more difficult to describe them. Nevertheless it can be said for this input spectrogram, that the colored areas still represent the most significant features that describe the input. Interestingly when looking onto the output spectrogram in \ref{fig:res_mel_triple_str_2D_output_emb}a, depending the lower harmonics, no differences can be seen to the previous output spectrograms. The part around 4096 Hz also shows some distinct spots that contain more energy, which are not present in the input spectrogram (artefacts).
 
 \begin{figure}[htb!]
     \centering
@@ -442,7 +438,7 @@ The next figure \ref{fig:res_mel_double_str_2D_inter_output}, shows the output, 
     \label{fig:res_mel_double_str_2D_inter_output}
 \end{figure}
 
-Coming to the output of the triple-stride network, here it can be seen that the features contained in the embeddings have no common structure with the input spectrograms. The values therefore cannot be described sufficiently. Also those appear different to the one depicted in figure \ref{fig:res_mel_triple_str_2D_output_emb}b. When looking at the output spectrogram generated of the interpolated embedding, it can be seen that in the area around 1024 to 2048 significant energy changes regarding certain frequencies are present which cannot be recognized in the input. Similar to the output of the previous network in figure \ref{fig:res_mel_double_str_2D_inter_output}b fine structures of the input are also not present anymore. 
+Coming to the output of the triple-stride network in figure \ref{fig:res_mel_triple_str_2D_inter_output}, here it can be seen that the features contained in the embeddings have no common structure with the input spectrograms. The values therefore cannot be described sufficiently. Also those appear different to the one depicted in figure \ref{fig:res_mel_triple_str_2D_output_emb}b. When looking at the output spectrogram generated of the interpolated embedding, it can be seen that in the area around 1024 to 2048 significant energy changes regarding certain frequencies are present which cannot be recognized in the input. Similar to the output of the previous network in figure \ref{fig:res_mel_double_str_2D_inter_output}b fine structures of the input are also not present anymore. 
 
 \begin{figure}[htb!]
     \centering

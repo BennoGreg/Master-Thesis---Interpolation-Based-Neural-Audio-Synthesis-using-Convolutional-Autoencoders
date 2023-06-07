@@ -3,7 +3,7 @@
 
 This chapter, shows the results that could be obtained through the experiments, mentioned in chapter \ref{cha:Experiment}. Those results contain either numbers, for assessing the model performance with a certain error performance, but also of graphics, displaying the outputs of the models. The outputs of the models, being spectrograms, will get compared with their corresponding input spectrograms. As the output of the encoder part (embedding) play a crucial role regarding audio synthesis, those also get displayed and assessed further on. Some additional graphics containing additional spectrograms, embeddings and signal plots will get displayed in the appendix \ref{app:addional_graphics}. Regarding the final listenable sounds, those get discussed in the next chapter.
 
-\section{Results regarding models with single Frequency Vectors}
+\section{Results regarding model with single frequency vectors}
 As described in chapter \ref{cha:Experiment} experiments have been conducted by using the single frequency vectors of the spectrograms. As a model, a 18 layer deep neural network with 1D convolutions has been trained on the reconstruction of single frequency vectors. 
 Throughout the development different settings have been tried out in order to find a model with an optimal training process and performance. The amount of data on which the model has been trained on, has been varied as different performances regarding the convergence could be observed. First trainings have been made on keyboard\_synthetic mixed with guitar\_acoustic. Here it could be observed, that no sufficient convergence could be reached (MSE > 200). Training a distinct model per instrument source, showed that the instrument source has a significant influence on the convergence. For example a model trained solely on keyboard\_synthetic converged better then a model with guitar\_acoustic. Comparing the performance of a network trained on guitar\_acoustic with one trained on e.g. guitar\_electronic, showed that with the latter a better score could be reached (\textasciitilde 17). Therefore the decision was made, to combine keyboard\_synthetic and guitar\_electronic instead of acoustic, for the training. Compared to the one mixed with guitar\_acoustic a score of \textasciitilde 78 could be reached. Subsequently more instrument sources were added, until the whole training dataset was utilized. This model showed the best performance regarding its error scores and was chosen to be considered for the ongoing experiments. The next table \ref{tab:res_scores_1Dcae} shows the error scores of this model. As a short note, each trained model was chosen based on the best validation error score. 
 
@@ -151,7 +151,7 @@ The following table \ref{tab:res_scores_2Dcae} shows the MSE error scores of the
         \hline
         \textbf{Validation} & 10,094 & 14,056 & 19,056 \\
         \hline
-        \textbf{Test} & 7,826 & 10,708 & 16,655 \\
+        \textbf{Test} & 7,831 & 10,711 & 16,655 \\
         \hline
     \end{tabular}
     \caption{MSE-Scores 2D convolutional autoencoder - single stride, double stride, triple stride.}

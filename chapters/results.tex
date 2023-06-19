@@ -1,11 +1,11 @@
 \chapter[Results]{Results}
 \label{cha:Results}
 
-This chapter shows the results that could be obtained through the experiments, mentioned in chapter \ref{cha:Experiment}. Those results contain either numbers, for assessing the model performance with a certain error performance, but also of graphics, displaying the outputs of the models. The outputs of the models, being spectrograms, are compared with their corresponding input spectrograms. As the output of the encoder part (embedding) plays a crucial role regarding audio synthesis, those also get displayed and assessed further on. Some additional graphics containing additional spectrograms, embeddings and signal plots can be found in the appendix \ref{app:addional_graphics}. Regarding the final listenable sounds, those get discussed in the next chapter.
+This chapter shows the results that could be obtained through the experiments, mentioned in chapter \ref{cha:Experiment}. Those results contain either numbers, for assessing the model performance with a certain error performance, but also of graphics, displaying the outputs of the models. The outputs of the models, being spectrograms, are compared with their corresponding input spectrograms. As the output of the encoder part (embedding) plays a crucial role regarding audio synthesis, those also get displayed and assessed further on. Some additional graphics containing additional signal plots can be found in the appendix \ref{app:addional_graphics}. Regarding the final listenable sounds (that are provided in supplementary material), those get discussed in the next chapter.
 
 \section{Results regarding model with single frequency vectors}
-As described in chapter \ref{cha:Experiment} experiments have been conducted by using the single frequency vectors of the spectrograms. As a model, a 18 layer deep neural network with 1D convolutions has been trained on the reconstruction of single frequency vectors. 
-Throughout the development different settings have been tried out in order to find a model with an optimal training process and performance. The amount of data on which the model has been trained on, has been varied as different performances regarding the convergence could be observed. First trainings have been made on \texttt{keyboard\_synthetic} mixed with \texttt{guitar\_acoustic}. As a note, those two terms are labels from the dataset representing the instrument family and source. Here it could be observed that no sufficient convergence could be reached (MSE > 200). Training a distinct model per instrument source showed that the instrument source has a significant influence on the convergence. For example a model trained solely on \texttt{keyboard\_synthetic} converged better then a model with \texttt{guitar\_acoustic}. Comparing the performance of a network trained on \texttt{guitar\_acoustic} with one trained on e.g. \texttt{guitar\_electronic}, showed that with the latter a better score could be reached (\textasciitilde 17). Therefore the decision was made to combine \texttt{keyboard\_synthetic} and \texttt{guitar\_electronic} instead of acoustic, for the training. Compared to the one mixed with \texttt{guitar\_acoustic} a score of \textasciitilde 78 could be reached. Subsequently more instrument sources were added, until the whole training dataset was utilized. This model showed the best performance regarding its error scores and was chosen to be considered for the ongoing experiments. Table \ref{tab:res_scores_1Dcae} shows the error scores of this model. As a short note, each trained model was chosen based on the best validation error score. 
+As described in chapter \ref{cha:Experiment} experiments have been conducted by using the single frequency vectors of the spectrograms. A 18 layer deep neural network with 1D convolutions has been trained on the reconstruction of single frequency vectors. 
+Throughout the development different settings have been tried out in order to find a model with an optimal training process and performance. First trainings have been made on \texttt{keyboard\_synthetic} mixed with \texttt{guitar\_acoustic}. As a note, those two terms are labels from the dataset representing the instrument family and source. Here it could be observed that no sufficient convergence could be reached (MSE > 200). Training a distinct model per instrument source showed that the instrument source has a significant influence on the convergence. For example a model trained solely on \texttt{keyboard\_synthetic} converged better then a model with \texttt{guitar\_acoustic}. Comparing the performance of a network trained on \texttt{guitar\_acoustic} with one trained on e.g. \texttt{guitar\_electronic}, showed that with the latter a better score could be reached (\textasciitilde 17). Therefore the decision was made to combine \texttt{keyboard\_synthetic} and \texttt{guitar\_electronic} instead of acoustic, for the training. Compared to the one mixed with \texttt{guitar\_acoustic} a score of \textasciitilde 78 could be reached. Subsequently more instrument sources were added, until the whole training dataset was utilized. This model showed the best performance regarding its error scores and was chosen to be considered for the ongoing experiments. Table \ref{tab:res_scores_1Dcae} shows the error scores of this model. As a short note, each trained model was chosen based on the best validation error score. 
 
 \begin{table}[htb!]
     \centering
@@ -24,6 +24,7 @@ Throughout the development different settings have been tried out in order to fi
     \label{tab:res_scores_1Dcae}
 \end{table}
 
+\newpage
 Here it can be seen that the error scores for training and validation are rather close, while the score on the held out test set was significantly smaller. This score could be reached with a training over 8 epochs and was considered as the best score, as after those 8 epochs the validation score increased again (despite decreasing training score). Table \ref{tab:res_scores_1D_pitch} is also interesting as it shows the error scores on the test set, regarding different pitches. As displaying all pitches would go beyond the scope, pitch classes from 030 to 100 have been chosen. In this case it can be seen that all error scores have roughly the same value and do not differ significantly. Nevertheless there is a small trend visible if the score increases depending the pitch.
 
 \begin{table}[htb!]
@@ -99,7 +100,7 @@ A final look onto the time domain plots in figure \ref{fig:res_1D_input_output_s
     \makebox[\textwidth][c]{\begin{tabular}{@{}cc@{}}
         \makebox{\includegraphics[width=0.50\textwidth]{images/results/inp_guitar_acoustic_014-060-127.png}}&
         \makebox{\includegraphics[width=0.50\textwidth]{images/results/out_guitar_acoustic_014-060-127.png}}\\
-        input signal. ~(a) & output signal. ~(b)
+        input signal ~(a) & output signal ~(b)
     \end{tabular}}
     \caption{Differences between output and reconstructed time signal.}
     \label{fig:res_1D_input_output_sig}
@@ -147,7 +148,7 @@ The following table \ref{tab:res_scores_2Dcae} shows the MSE error scores of the
     \captionsetup{justification=centering}
     \begin{tabular}{|c|c|c|c|}
         \hline
-         & \textbf{single-stride} & \textbf{double-stride} & \textbf{triple-stride} \\
+         & \textbf{Single-Stride} & \textbf{Double-Stride} & \textbf{Triple-Stride} \\
          \hline
         \textbf{Training} & 9,779 & 13,717 & 18,292 \\
         \hline
@@ -156,8 +157,7 @@ The following table \ref{tab:res_scores_2Dcae} shows the MSE error scores of the
         \textbf{Test} & 7,831 & 10,711 & 16,655 \\
         \hline
     \end{tabular}
-    \caption{MSE-Scores 2D convolutional autoencoder - single stride, double stride, triple stride.}
-    %\caption{MSE-Scores 2D convolutional autoencoder - single stride (9 epochs), double stride (8 epochs), triple stride (16 epochs).}
+    \caption{MSE-Scores 2D convolutional autoencoder - single-stride, double-stride, triple stride.}
     \label{tab:res_scores_2Dcae}
 \end{table}
 
@@ -170,7 +170,7 @@ As during the previous experiment also the scores regarding different pitches we
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
-         \textbf{Pitch} & \textbf{single-stride} & \textbf{double-stride} & \textbf{triple-stride}\\
+         \textbf{Pitch} & \textbf{Single-Stride} & \textbf{Double-Stride} & \textbf{Triple-Stride}\\
          \hline
          \textbf{030} & 7,084 & 9,175 & 12,241\\
          \hline
@@ -190,7 +190,7 @@ As during the previous experiment also the scores regarding different pitches we
          \hline
          \textbf{070} & 7,410 & 9,868 & 14,894\\
          \hline
-         \textbf{075} & 7,850 & 9,949 & 14,273\\
+         \textbf{075} & 7,849 & 9,949 & 14,273\\
          \hline
          \textbf{080} & 8,624 & 10,529 & 15,486\\
          \hline
@@ -219,7 +219,7 @@ For comparative reasons, the same spectrogram source has been chosen like with t
         \makebox{\includegraphics[width=0.50\textwidth]{images/results/single_str/emb_guitar_acoustic_014-060-127.png}}\\
         reconstruction of guitar acoustic ~(a) & embedding of guitar acoustic ~(b)
     \end{tabular}}
-    \caption{Reconstructed spectrogram and corresponding embedding - single-stride model.}
+    \caption{Reconstructed spectrogram and corresponding embedding - single-stride network.}
     \label{fig:res_single_str_2D_output_emb}
 \end{figure}
 
@@ -233,11 +233,11 @@ With a look on the output of the double-stride network (figure \ref{fig:res_doub
         \makebox{\includegraphics[width=0.50\textwidth]{images/results/double_str/emb_guitar_acoustic_014-060-127.png}}\\
         reconstruction of guitar acoustic ~(a) & embedding of guitar acoustic ~(b)
     \end{tabular}}
-    \caption{Reconstructed spectrogram and corresponding embedding - double-stride model.}
+    \caption{Reconstructed spectrogram and corresponding embedding - double-stride network.}
     \label{fig:res_double_str_2D_output_emb}
 \end{figure}
 
-Looking onto the embeddings of the two networks it can be said, that those contain significantly less values across the y-axis. Comparing it to the input but also the output, despite of the significant compression, the significant harmonic features and general structures are present as positive numbers (regarding the colorscale). As concerning the double strided network, the embedding still has a fine granularity contrary to the one obtained by the triple strided network.
+Looking onto the embeddings of the two networks it can be said, that those contain significantly less values across the y-axis. Comparing it to the input but also the output, despite of the significant compression, the significant harmonic features and general structures are present as positive numbers (regarding the colorscale). As concerning the double-strided network, the embedding still has a fine granularity contrary to the one obtained by the triple strided network.
 
 \begin{figure}[htb!]
     \centering
@@ -247,7 +247,7 @@ Looking onto the embeddings of the two networks it can be said, that those conta
         \makebox{\includegraphics[width=0.50\textwidth]{images/results/triple_str/emb_guitar_acoustic_014-060-127.png}}\\
         reconstruction of guitar acoustic ~(a) & embedding of guitar acoustic ~(b)
     \end{tabular}}
-    \caption{Reconstructed spectrogram and corresponding embedding - triple-stride model.}
+    \caption{Reconstructed spectrogram and corresponding embedding - triple-stride network.}
     \label{fig:res_triple_str_2D_output_emb}
 \end{figure}
 
@@ -264,11 +264,11 @@ When looking at the embeddings in the three graphics, that after interpolating, 
         \makebox{\includegraphics[width=0.60\textwidth]{images/results/single_str/guitar_acoustic_021-055-100&brass_acoustic_016-055-100_output_0.5.png}}\\
         output signal ~(b)
     \end{tabular}}
-    \caption{Embeddings of input samples with interpolated embedding and its corresponding output spectrogram - single stride model.}
+    \caption{Embeddings of input samples with interpolated embedding and its corresponding output spectrogram - single-stride network.}
     \label{fig:res_single_str_2D_inter_output}
 \end{figure}
 
-By looking again on the decoded output it can be seen that again both instruments are present. Compared to the result in the first experiments, the guitar sample is more present with these kind of networks. Contrary to the experiment with single sample reconstruction, here the difference between the different strided networks can be noticed even more. With special notice to the higher harmonics of the original brass samples. Those harmonics appear more precise with the single strided network (see figure \ref{fig:res_single_str_2D_inter_output}b). In the output of the double-stride network in figure \ref{fig:res_double_str_2D_inter_output}b the "contours" coming from the brass sample are less sharp then with the single stride.
+By looking again on the decoded output it can be seen that again both instruments are present. Compared to the result in the first experiments, the guitar sample is more present with these kind of networks. Contrary to the experiment with single sample reconstruction, here the difference between the different strided networks can be noticed even more. With special notice to the higher harmonics of the original brass samples. Those harmonics appear more precise with the single-strided network (see figure \ref{fig:res_single_str_2D_inter_output}b). In the output of the double-stride network in figure \ref{fig:res_double_str_2D_inter_output}b the "contours" coming from the brass sample are less sharp then with the single-stride.
 
 \begin{figure}[htb!]
     \centering
@@ -279,7 +279,7 @@ By looking again on the decoded output it can be seen that again both instrument
         \makebox{\includegraphics[width=0.60\textwidth]{images/results/double_str/guitar_acoustic_021-055-100&brass_acoustic_016-055-100_output_0.5.png}}\\
         output signal ~(b)
     \end{tabular}}
-    \caption{Embeddings of input samples with interpolated embedding and its corresponding output spectrogram - double stride model.}
+    \caption{Embeddings of input samples with interpolated embedding and its corresponding output spectrogram - double-stride network.}
     \label{fig:res_double_str_2D_inter_output}
 \end{figure}
 
@@ -299,10 +299,10 @@ Taking the output of the triple strided network (figure \ref{fig:res_triple_str_
 \end{figure}
 
 
-
+\newpage
 \section{Results with mel-spectrograms}
 
-The final experiments are again done with a 2D convolutional network, but using mel scale spectrograms instead of log-magnitude. In chapter \ref{cha:Experiment} under section \ref{sec:exp_mel} an introduction to the mel-scale has been given. As those log-mel spectrograms are a compressed version of the log-magnitude spectrograms and emphasize the lower frequencies, these experiments are expected to bring different but interesting results. This is again meant regarding the model performance but also towards the quality of reconstructing spectrograms with or without modification of the embeddings. The results again get depicted in tables filled with the MSE scores of training, validation and testing but also the scores regarding specific pitch classes of the test set. Later on again the graphics contain the output spectrograms and embeddings with and without interpolation. Again three different networks with single, double and triple strides were used. Those are similar in their structure to the ones used with log-magnitude spectrograms, which were already explained in the previous chapter.
+The final experiments are again done with a 2D convolutional network, but using mel scale spectrograms instead of log-magnitude. In chapter \ref{cha:Experiment} under section \ref{sec:exp_mel} an introduction to the mel-scale has been given. As those log-mel spectrograms are a compressed version of the log-magnitude spectrograms and emphasize the lower frequencies, these experiments are expected to bring different but interesting results. This is again meant regarding the model performance but also towards the quality of reconstructing spectrograms with or without modification of the embeddings. The results again get depicted in tables filled with the MSE scores of training, validation and testing but also the scores regarding specific pitch classes of the test set. Later on again the graphics contain the output spectrograms and embeddings with and without interpolation. Again three different networks with single, double and triple strides were used. Those are similar in their structure to the ones used with log-magnitude spectrograms.
 
 The following table \ref{tab:res_scores_2D_mel} shows the training, validation and testing scores of all three different networks. First of all the MSE scores of all networks are significantly, higher than the ones of the log-magnitude networks. An exception is the testing score of the single-stride network as it is equal to the training score of the triple-strided log-magnitude network. The scores between the networks also increase with the amount of compression, making the single-stride network again the best performing network regarding its score. Interestingly the validation score of the single-stride network is the only one that is higher as its corresponding training score. The double- and triple-stride networks therefore show that they have a lower score on reconstructing unseen data. Again the auditory quality will be assessed in the next chapter \ref{cha:Discussion}.
 
@@ -311,7 +311,7 @@ The following table \ref{tab:res_scores_2D_mel} shows the training, validation a
     \captionsetup{justification=centering}
     \begin{tabular}{|c|c|c|c|}
         \hline
-         & \textbf{single-stride} & \textbf{double-stride} & \textbf{triple-stride} \\
+         & \textbf{Single-Stride} & \textbf{Double-Stride} & \textbf{Triple-Stride} \\
          \hline
         \textbf{Training} & 30,579 & 49,685 & 62,833 \\
         \hline
@@ -320,7 +320,7 @@ The following table \ref{tab:res_scores_2D_mel} shows the training, validation a
         \textbf{Test} & 18,322 & 33,689 & 43,300\\
         \hline
     \end{tabular}
-    \caption{MSE-Scores 2D convolutional autoencoder with log-mel spectrograms - single stride, double stride, triple stride.}
+    \caption{MSE-Scores 2D convolutional autoencoder with log-mel spectrograms - single-stride, double-stride, triple stride.}
     \label{tab:res_scores_2D_mel}
 \end{table}
 
@@ -328,9 +328,10 @@ Like in the previous experiments, the network performance has been evaluated tow
 
 \begin{table}[htb!]
 \centering
+\captionsetup{justification=centering}
 \begin{tabular}{|c|c|c|c|}
 \hline
-\textbf{pitch} & \textbf{single-stride} & \textbf{double-stride} & \textbf{triple-stride} \\ \hline
+\textbf{Pitch} & \textbf{Single-Stride} & \textbf{Double-Stride} & \textbf{Triple-Stride} \\ \hline
 \textbf{030}   & 17,178                 & 24,567                 & 30,302                 \\ \hline
 \textbf{035}   & 18,380                 & 26,142                 & 36,509                 \\ \hline
 \textbf{040}   & 19,382                 & 34,125                 & 44,062                 \\ \hline
@@ -361,6 +362,7 @@ Similar to the other experiments to assess the ability of reconstructing spectro
     \label{fig:res_2D_mel_guit}
 \end{figure}
 
+\newpage
 The next three figures (\ref{fig:res_mel_single_str_2D_output_emb}, \ref{fig:res_mel_double_str_2D_output_emb} and \ref{fig:res_mel_triple_str_2D_output_emb}) show the output spectrograms but also the embeddings of the guitar sample depicted in figure \ref{fig:res_2D_mel_guit}. As its known at this point, the mel-spectrograms are already a compressed version log-magnitude spectrograms, as they contain 128 values instead 513. Thus it can be seen on the y-axis of the embeddings, that those embeddings are even more compressed than in the last experiment (size of 56, 28 and 14). Furthermore it can be noticed regarding the embeddings of the first two networks (figures \ref{fig:res_mel_single_str_2D_output_emb}b and \ref{fig:res_mel_double_str_2D_output_emb}b), that contrary to the previous experiments with log-magnitde spectrograms, the low energy areas are positively valued. The high-energy areas and harmonics are therefore negatively valued. Concerning the scale it can be also said that those embeddings have a narrower value range then those in the previous experiments. 
 
 \begin{figure}[htb!]
@@ -375,7 +377,7 @@ The next three figures (\ref{fig:res_mel_single_str_2D_output_emb}, \ref{fig:res
     \label{fig:res_mel_single_str_2D_output_emb}
 \end{figure}
 
-In figure \ref{fig:res_mel_single_str_2D_output_emb}a the output of the single strided network can be seen. In comparison to the input spectrogram, its reconstruction is the best out of those three networks, as it contains the most details. Despite of this, it can be seen that the broadband spectra at the beginning and end are not as intense as with the input. Further on it can be seen that changes over time in the frequencies between the lower harmonics are not present in the output. The embeddings in figures \ref{fig:res_mel_single_str_2D_output_emb}b and \ref{fig:res_mel_double_str_2D_output_emb}b show that the features representing the lower harmonics are recognizable as negative values. The latter already shows a lack of features in the higher harmonics. This is caused by the input log-mel spectrograms having a shorter distance between the higher harmonics then in the lower ones. Regarding the output of the double-stride network it can therefore be said that the higher harmonics can be less distinguished from each other then with the single-stride network (see area over >2048 Hz).
+In figure \ref{fig:res_mel_single_str_2D_output_emb}a the output of the single-strided network can be seen. In comparison to the input spectrogram, its reconstruction is the best out of those three networks, as it contains the most details. Despite of this, it can be seen that the broadband spectra at the beginning and end are not as intense as with the input. Further on it can be seen that changes over time in the frequencies between the lower harmonics are not present in the output. The embeddings in figures \ref{fig:res_mel_single_str_2D_output_emb}b and \ref{fig:res_mel_double_str_2D_output_emb}b show that the features representing the lower harmonics are recognizable as negative values. The latter already shows a lack of features in the higher harmonics. This is caused by the input log-mel spectrograms having a shorter distance between the higher harmonics then in the lower ones. Regarding the output of the double-stride network it can therefore be said that the higher harmonics can be less distinguished from each other then with the single-stride network (see area over >2048 Hz).
 
 
 \begin{figure}[htb!]
@@ -405,7 +407,7 @@ Comparing the result of the double-strided network with the one of the triple st
 \end{figure}
 
 \subsection{Experiments with interpolation in embedding}
-The final experiments in this work also deal with the introduction of the interpolation step to synthesize novel sounds. With the experiments of reconstructing single audios, it could be seen that despite the small compressed embeddings, the input spectrograms could be reconstructed adequately. Having those smaller embeddings, less values are available to reconstruct spectrograms which in conclusion means that altering those also brings significant changes. This fact makes these experiments even more interesting, as here again, the embeddings of two input samples are interpolated, to generate novel sounds. As an example, the same guitar and brass samples that were used in the previous experiments are utilized to synthesize audio. The following graphics \ref{fig:res_mel_original_guit_brass} show the input log-mel spectrograms of the two source signals. To mention at this point again, the higher harmonics are closer in the scale, while the lower harmonics have a greater distance. Especially when looking at the brass sample this can be noticed as the energy does not fade.
+The final experiments in this work also deal with the introduction of the interpolation step to synthesize novel sounds. With the experiments of reconstructing single audios, it could be seen that despite the small compressed embeddings, the input spectrograms could be reconstructed adequately. Having those smaller embeddings, less values are available to reconstruct spectrograms which in conclusion means that altering those also brings significant changes. This fact makes these experiments even more interesting, as here again, the embeddings of two input samples are interpolated, to generate novel sounds. As an example, the same guitar and brass samples that were used in the previous experiments are utilized to synthesize audio. The following graphics \ref{fig:res_mel_original_guit_brass} show the input log-mel spectrograms of the two source signals. To mention again, the higher harmonics are closer in the scale, while the lower harmonics have a greater distance. Especially when looking at the brass sample this can be noticed as the energy does not fade.
 
 \begin{figure}[htb!]
     \centering
@@ -419,7 +421,7 @@ The final experiments in this work also deal with the introduction of the interp
     \label{fig:res_mel_original_guit_brass}
 \end{figure}
 
-Knowing the source log-mel spectrograms, the following graphics show the embeddings of those spectrograms, the interpolated embedding as well as the resulting output spectrogram using again the three differently strided networks (single-, double- and triple-stride). By comparing all the output spectrograms to the two input spectrograms, it again can be said that the output of the single stride network in figure \ref{fig:res_mel_single_str_2D_inter_output}b is the most precise and contains the most characteristics of both instruments. The upper harmonics of the brass sample can still be recognized in the output spectrogram despite the "fading" influence of the guitar sample. Fine changes in the harmonics over time of the trumpet, like at second 1.5, cannot be recognized anymore. Furthermore the guitar sample can also be recognized in the output spectrogram. With a look onto the embeddings those again show the high energy areas with low or negative values. The original low energy areas in turn have positive values. Furthermore due to the little distance between the higher frequency ranges in the input log-mel spectrograms, the embeddings in this area just depict the high-energy areas. This leads the output spectrogram to not have a high precision in the higher harmonics. Nevertheless through interpolation the resulting embedding contains features of both instruments as well as the resulting spectrogram. 
+Knowing the source log-mel spectrograms, the following graphics show the embeddings of those spectrograms, the interpolated embedding as well as the resulting output spectrogram using again the three differently strided networks (single-, double- and triple-stride). By comparing all the output spectrograms to the two input spectrograms, it again can be said that the output of the single-stride network in figure \ref{fig:res_mel_single_str_2D_inter_output}b is the most precise and contains the most characteristics of both instruments. The upper harmonics of the brass sample can still be recognized in the output spectrogram despite the "fading" influence of the guitar sample. Fine changes in the harmonics over time of the trumpet, like at 1,5 seconds, cannot be recognized anymore. Furthermore the guitar sample can also be recognized in the output spectrogram. With a look onto the embeddings those again show the high energy areas with low or negative values. The original low energy areas in turn have positive values. Furthermore due to the little distance between the higher frequency ranges in the input log-mel spectrograms, the embeddings in this area just depict the high-energy areas. This leads the output spectrogram to not have a high precision in the higher harmonics. Nevertheless through interpolation the resulting embedding and the output spectrogram contains features of both instruments. 
 
 \begin{figure}[htb!]
     \centering
@@ -434,7 +436,7 @@ Knowing the source log-mel spectrograms, the following graphics show the embeddi
     \label{fig:res_mel_single_str_2D_inter_output}
 \end{figure}
 
-Figure \ref{fig:res_mel_double_str_2D_inter_output}, shows the output of the double-stride network where already significant differences to the output of the single-strided network can be seen. First of all regarding the embeddings, the features representing the higher harmonics of both instruments (range >=15) are less intense while the features of the lower harmonics are still distinguishable. Having the interpolated embedding the features of both embeddings can still be recognized, despite the lower precision on the y-axis above 15. As a result in the output spectrogram, the higher harmonics of both instruments are rather "washed out" and appear blurry in the spectrogram. 
+Figure \ref{fig:res_mel_double_str_2D_inter_output} shows the output of the double-stride network where already significant differences to the output of the single-strided network can be seen. First of all regarding the embeddings, the features representing the higher harmonics of both instruments (range >=15) are less intense while the features of the lower harmonics are still distinguishable. Having the interpolated embedding the features of both embeddings can still be recognized, despite the lower precision on the y-axis above 15. As a result in the output spectrogram, the higher harmonics of both instruments are rather "washed out" and appear blurry in the spectrogram. 
 
 \begin{figure}[htb!]
     \centering

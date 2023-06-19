@@ -37,7 +37,7 @@ After all training batches have ran through and optimization was done, the model
 
 To ensure to have a sufficiently trained network, the error scores got observed periodically. If the validation score did not improve more, i.e. the network convergence stagnated, and was sufficient, the training was stopped. Important to know that after each training iteration, which is also called epoch, the state of the model got saved, for further use. As also the scores for each model state were known, it was therefore possible to determine the best model, having the lowest MSE-score on the validation data. This one then was further tested and analyzed towards the applicability for audio (re)synthesis. Those further steps, which do not involve training, as well as the pre-processing regarding the evaluation data, were performed locally. 
 
- 
+ \newpage
 \section{Initial Experiments}
 \label{sec:exp_init_experiment}
 In the beginning of this project, initial experiments were done in order to produce a very basic proof of concept implementation. Like mentioned before, those implementations where entirely held on the local machine, because at the time there was no access to the previously mentioned high-performance GPU. This was also possible due to just taking a small subset of the test dataset. Of this test dataset, samples of one instrument (\textit{keyboard\_synthetic}) were taken out, and considered for test-wise training.
@@ -59,12 +59,14 @@ To also mention the model configuration, this consisted of 4 convolutional layer
 	\includegraphics[width=\textwidth]{images/experiments/autoencoder_init.png}
 \end{figure}
 
+\newpage
 \subsubsection{Evaluation}
 Regarding the evaluation of this first model, it had been tested out on the remaining 20\% of the small subset. These first experiments consisted just of evaluating the outcome of the decoder, by passing single spectrograms through the network. By this, the ability of the network to recreate audio spectrograms was proven, which further on serves as a base for the next experiments. Regarding the final outcoming sounds, the original preserved phase information was reused to recreate audios.
 
 \subsection{Spectrograms of signalframes as Input}
 In the previous initial experiment, the samples from the NSynth dataset have been taken as a whole for the experiment. It has been mentioned that all samples are 4 seconds long, but some contain padding in order to reach a length of 4 seconds. As those zero-paddings are then also part of the training data, this could affect the behaviour but also the outcome of the model. If those zero-paddings would be left out, this would lead to unequal samples, which results in training data unusable for the model. This is because the network has a fixed size of neurons at the input, which implies to have a fixed input shape. Furthermore this also means that having a fixed size of 4 seconds, the input always has to be of 4 seconds, which is not desirable. Not at least, if the system should be used in real-time applications for audio synthesis, one cannot wait to have 4 seconds of a signal, to perform audio synthesis with it. Therefore it would be desirable to perform audio synthesis on smaller "frames or chunks" of an audio signal, respective spectrogram. 
 
+\newpage
 \subsubsection{Pre-processing}
 This leads to the idea to take chunks or frames of audio data that get transformed into distinct spectrograms of same size. For a start the length of those frames was set to 500 ms. Furthermore it was chosen that those frames are not consecutive, but have an overlap of 50\%. Additionally those frames were multiplied with a window function, like it is used in the STFT. Similar to the window function used in the STFT, here a Hann-window is used. Again as those trimmed signals were all differently long, they had to be padded to a multiple of the frame size respective hop-length. This ensures to have equally long chunks of the signal. As of the windowed frames, the first and last frame didn't have overlapping parts at the beginning respective end. To overcome this issue, additional zeros were padded to form one frame on each side, to also get an overlap. In combination, having the framed and windowed signal chunks, by overlapping each again with 50\% and adding the values, this would yield the original signal again. This would be especially helpful when reconstructing the final signal in the end. 
 
@@ -109,7 +111,6 @@ The training process for this experiment differs in some major points from the p
 
 As here single frequency vectors were used, the process of creating a tensor and subsequently the dataset for the dataloader, was different. Here all spectrograms of the pre-defined and pre-processed dataset were utilized, and the single frequency vectors get concatenated to form one big 3D array in the shape of amount by channels by frequency. To note the amount of channels here is also initially one. While experimenting, regarding the training, also different strategies regarding shuffling were used. First on just the samples were shuffled resulting in the instruments being mixed, but the frequency vectors were in the same order as in the spectrogram. This stayed the same as after each epoch the data didn't get shuffled. One more successful strategy was to also shuffle the whole generated array, resulting in the frequency vectors of all instruments being mixed. Furthermore shuffling was also done after each epoch. The same strategies were also applied to the validation dataset, as from this point on also the validation dataset was considered, partly due to more computational power was present from this point on. A batch-size of 32 was considered. 
 
-% Like discussed in chapter \ref{cha:Approach}, for the training also a validation step is needed. This validation was made using the validation dataset, which does not intersect with the training dataset. The validation process takes place in each epoch, after the training has been performed. This includes calculating of the train loss, back-propagating the error and optimizing the network. With this step, the network gets validated on data that has not been seen before, to prevent the network from overfitting. 
 Introducing the validation step from this experiment, also the scheduler to adapt the learning rate during the training was applied. Taking into account that the network is rather complex and a huge amount of data has been used, the learning rate also had to be chosen adequately. Throughout these experiments, a small learning rate of $1e-7$ was chosen, as this led to a more stable training and better convergence. 
 
 \subsubsection{Testing}
@@ -157,14 +158,14 @@ This network is not as deep as the one used in the previous experiment because i
         \hline
          &\textbf{Encoder}&\textbf{Embedding-size}&\textbf{Decoder} \\
          \hline
-        \textbf{Single Stride} & e2 & 250 & d4 \\
+        \textbf{Single-Stride} & e2 & 250 & d4 \\
         \hline
-        \textbf{Double Stride} & e2, e4 & 124 & d2, d4 \\
+        \textbf{Double-Stride} & e2, e4 & 124 & d2, d4 \\
         \hline
-        \textbf{Triple Stride} & e2, e3, e5 & 62 & d1, d3, d4 \\
+        \textbf{Triple-Stride} & e2, e3, e5 & 62 & d1, d3, d4 \\
         \hline
     \end{tabular}
-    \caption{Setting of stridings in network.}
+    \caption{Setting of strides in network.}
     \label{tab:exp_2D_strides}
 \end{table}
 
@@ -185,7 +186,7 @@ When having the final spectrograms, some further experiments regarding the impro
 
 \section{Experiments with mel scale}
 \label{sec:exp_mel}
-Up to this point, the experiments have all been conducted on log-magnitude spectrograms. Those spectrograms depict the frequency energies on a linear scale with a certain resolution (e.g. [0 Hz, 15.625 Hz, 31.25 Hz ... 8000 Hz]). Those spectrograms have been computed of a dataset consisting of musical notes. Those notes can be grouped into musical intervals describing the distance of a note to another, whereas the interval of an octave would be a doubling in frequency. As an example the note \textit{a'} has a frequency of 440 Hz (if perfect sine), whereas its octave on top would be an \textit{a''} with 880 Hz. If going an octave down it would result in 220 Hz having an \textit{a} (to be continued \textit{A} 110 Hz, \textit{A'} 55 Hz, ...). This also means that the higher the note gets, the larger the distance in Hz and the lower it gets, the less distance in Hz between the notes. Having this principle one can come to the conclusion that having a linear scale like in log-magnitude spectrograms, the resolution with lower notes is worse then with higher notes. With a look onto machine learning and neural networks, this also means, that there is less data available to train on for low notes.
+Up to this point, the experiments have all been conducted on log-magnitude spectrograms. Those spectrograms depict the frequency energies on a linear scale with a certain resolution (e.g. [0 Hz, 15,625 Hz, 31,25 Hz ... 8000 Hz]). Those spectrograms have been computed of a dataset consisting of musical notes. Those notes can be grouped into musical intervals describing the distance of a note to another, whereas the interval of an octave would be a doubling in frequency. As an example the note \textit{a'} has a frequency of 440 Hz (if perfect sine), whereas its octave on top would be an \textit{a''} with 880 Hz. If going an octave down it would result in 220 Hz having an \textit{a} (to be continued \textit{A} 110 Hz, \textit{A'} 55 Hz, ...). This also means that the higher the note gets, the larger the distance in Hz and the lower it gets, the less distance in Hz between the notes. Having this principle one can come to the conclusion that having a linear scale like in log-magnitude spectrograms, the resolution with lower notes is worse then with higher notes. With a look onto machine learning and neural networks, this also means, that there is less data available to train on for low notes.
 Keeping this in mind, the choice has been made to perform comparative experiments based on a different scale, which is called mel scale \cite{stevens1937scale}. This scale can be seen as a compressed form of a spectrogram. Furthermore it is an empirical scale that is based on the human auditory perception, as they perceive frequency logarithmically rather than linearly. Mapped on the mel scale, in contrast to magnitude, low-frequency contents have a better resolution in contrast to the high-frequency range \cite{Kathania2019}. This means that with this scale lower notes can be better differentiated and thus are more emphasized then with the linear scale. Even though that this scale is based on observations it was proven to be beneficial regarding machine learning tasks. Not at least as several approaches, mentioned in related work, applied this scale for their audio synthesis task. Furthermore this scale could also be seen as a compressed form of a spectrogram containing the most significant properties. 
 
 \subsection{Pre-processing}
@@ -195,18 +196,18 @@ The pre-processing step does not really differ from the ones performed in previo
     \centering
     \makebox[\textwidth][c]{\begin{tabular}{@{}c}
         \makebox{\includegraphics[width=0.55\textwidth]{images/experiments/bass_electronic_log-mag.png}}\\
-        log-mag spectrogram. ~(a)\\
+        log-mag spectrogram ~(a)\\
         \makebox{\includegraphics[width=0.55\textwidth]{images/experiments/bass_electronic_log-mel.png}}\\
-        log-mel spectrogram. ~(b)
+        log-mel spectrogram ~(b)
     \end{tabular}}
     \caption{Difference between log-magnitude and log-mel spectrograms.}
     \label{fig:exp_mag_mel}
 \end{figure}
 
-By comparing those, it can be seen, that the scale is logarithmic and also that the distance between the low frequencies is greater than between the high-frequencies. As of this known characteristics and its already compressed form, the experiments using these kind of spectrograms thus can be expected to bring different but interesting results. Using the mel-spectrograms also the same experiments with and without interpolation got conducted to get a comparison.
+By comparing those, it can be seen, that the scale is logarithmic and the distance between the low frequencies greater than between the high-frequencies. As of this known characteristics and its already compressed form, the experiments using these kind of spectrograms thus can be expected to bring different but interesting results. Here also the same experiments with and without interpolation got conducted to get a comparison.
 
 \subsubsection{Neural Network}
-Like in the previous experiment, also three different networks with single, double or triple strides on each side were applied and assessed further on. The basic network structure and configuration does not differ of the one used in the previous experimental setting as having the same amount of layers and same configuration of the channels. Nevertheless some differences arise, because the last layer applies a kernel of 1x2 to regain the same input shape. Also in the networks using three or two times strides on each side, padding in the layer \textit{e4} and \textit{d4} is set to 1,1. Regarding the network with three strides on each side, those have been set onto layers \textit{e2, e3, e4} and \textit{d2, d3, d4}. As the input of the network is already of smaller size, the corresponding embeddings are therefore significantly smaller like in the previous experiments (56, 28, 14). Those were also altered like in the previous experiments by interpolation to synthesize novel sounds. 
+Like in the previous experiment, also three different networks with single-, double- or triple-strides on each side were applied and assessed further on. The basic network structure and configuration does not differ of the one used in the previous experimental setting as having the same amount of layers and same configuration of the channels. Nevertheless some differences arise, because the last layer applies a kernel of 1x2 to regain the same input shape. Also in the networks using three or two times strides on each side, padding in the layer \textit{e4} and \textit{d4} is set to 1,1. Regarding the network with three strides on each side, those have been set onto layers \textit{e2, e3, e4} and \textit{d2, d3, d4}. As the input of the network is already of smaller size, the corresponding embeddings are therefore significantly smaller like in the previous experiments (56, 28, 14). Those were also altered like in the previous experiments by interpolation to synthesize novel sounds. 
 
 \subsubsection{Reconstruction and post-processing}
 The steps around the reconstruction and post-processing are similar to the previous experiments. Because as input also frames of 3 were used, the output consists of 3 frames too. Those also were overlapping and averaged to form a final log-mel spectrogram. Again also the energy got corrected to have the same amount of energy present like in the input. Having the final log-mel spectrograms, those could be either directly converted to an audio using the function \texttt{librosa.feature.inverse.mel\_to\_audio} or first to an magnitude spectrogram. The latter is used when just single audio samples were reconstructed (without interpolation) as here the phase information could be reused, and thus the ISTFT can be applied to obtain the final sound. Otherwise the mentioned function is performing the conversion to magnitude and Griffin-Lim at once to obtain an estimated signal. 

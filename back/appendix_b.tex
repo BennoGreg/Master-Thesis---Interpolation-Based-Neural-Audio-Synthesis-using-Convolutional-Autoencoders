@@ -8,24 +8,31 @@ List of supplementary data submitted to the degree-granting institution for arch
 % Use this as an example only, adapt the structure to your requirements!
 
 \section{PDF Files}
-\begin{FileList}{/}
+\begin{FileList}{/Thesis/}
 \fitem{thesis.pdf} Master thesis (complete document)
 \end{FileList}
 
 \section{Media Files}
-\begin{FileList}{/media}
 
-% \fitem{*.ai, *.pdf} Adobe Illustrator files
-% \fitem{*.jpg, *.png} raster images
-% \fitem{*.mp3} audio files
-% \fitem{*.mp4} video files
+This is a list where the synthesized audio files can be found. As a note "<stride>" is a placeholder for single-, double- or triple-stride. Furthermore the names of the output samples regarding single reconstruction contain endings like "ec" or "gl", which mean specifically that those samples are post-processed (energy corrected) and/or generated with Griffin-Lim.
+\begin{FileList}{/Thesis/media/correlation_matrices/}
+\fitem{*.png} correlation matrices
+\end{FileList}
+
+\begin{FileList}{/Thesis/media/wav/interpolated/}
+\fitem{1D/*.wav} output 1D convolutional network
+\fitem{2D_log_magnitude/*.wav} output 2D log-magnitude
+\fitem{2D_log_mel/*.wav} output 2D log-mel
+\end{FileList}
+
+\begin{FileList}{/Thesis/media/wav/single_reconstruction/}
+\fitem{1D/*.wav} output 1D convolutional network
+\fitem{2D_log_magnitude/<stride>/*.wav} output 2D convolutional network log-magnitude
+\fitem{2D_log_mel/<stride>/*.wav} output 2D convolutional network log-mel
+    
 \end{FileList}
 
 
-\section{Online Sources (PDF Captures)}
-\begin{FileList}{/online-sources}
-\fitem{Reliquienschrein-Wikipedia.pdf} \citenobr{WikiReliquienschrein2022}
-\end{FileList}
 
 
 
